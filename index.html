@@ -1,0 +1,1781 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Math Bank Manager</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+/* ===== GENERAL STYLES ===== */
+* {
+margin: 0;
+padding: 0;
+box-sizing: border-box;
+font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+}
+
+body {
+background: linear-gradient(135deg, #1a2980, #26d0ce);
+min-height: 100vh;
+padding: 15px;
+color: #333;
+-webkit-tap-highlight-color: transparent;
+}
+
+.container {
+width: 100%;
+background: white;
+border-radius: 20px;
+box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+overflow: hidden;
+margin: 0 auto;
+max-width: 100%;
+}
+
+header {
+background: linear-gradient(to right, #2c3e50, #1a237e);
+color: white;
+padding: 25px 15px;
+text-align: center;
+position: relative;
+overflow: hidden;
+}
+
+header::before {
+content: "";
+position: absolute;
+top: -50%;
+left: -50%;
+width: 200%;
+height: 200%;
+background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 70%);
+transform: rotate(30deg);
+}
+
+h1 {
+font-size: 1.8rem;
+margin-bottom: 8px;
+position: relative;
+z-index: 2;
+}
+
+.subtitle {
+font-size: 1.1rem;
+opacity: 0.9;
+position: relative;
+z-index: 2;
+max-width: 100%;
+margin: 0 auto;
+line-height: 1.4;
+}
+
+.main-content {
+display: flex;
+flex-direction: column;
+padding: 15px;
+gap: 20px;
+}
+
+.panel-card {
+background: #fff;
+border-radius: 15px;
+box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+padding: 20px;
+margin-bottom: 20px;
+}
+
+.panel-title {
+display: flex;
+align-items: center;
+gap: 10px;
+margin-bottom: 15px;
+padding-bottom: 12px;
+border-bottom: 2px solid #e0e7ff;
+}
+
+.panel-title i {
+font-size: 1.5rem;
+color: #4a6bff;
+}
+
+.panel-title h2 {
+font-size: 1.4rem;
+color: #2c3e50;
+}
+
+/* ===== CATEGORY STYLES ===== */
+.category {
+margin-bottom: 20px;
+}
+
+.category-header {
+display: flex;
+justify-content: space-between;
+align-items: center;
+cursor: pointer;
+margin-bottom: 12px;
+}
+
+.category-title {
+display: flex;
+align-items: center;
+gap: 10px;
+}
+
+.category-title h3 {
+font-size: 1.3rem;
+color: #2c3e50;
+}
+
+.category-title i {
+font-size: 1.3rem;
+color: #4a6bff;
+}
+
+.collapse-btn {
+background: #e0e7ff;
+border: none;
+width: 34px;
+height: 34px;
+border-radius: 50%;
+font-size: 1.1rem;
+cursor: pointer;
+transition: all 0.3s;
+}
+
+.collapse-btn:hover {
+background: #4a6bff;
+color: white;
+}
+
+.category-content {
+max-height: 500px;
+overflow: hidden;
+transition: max-height 0.4s ease-in-out;
+}
+
+.category.collapsed .category-content {
+max-height: 0;
+}
+
+textarea {
+width: 100%;
+padding: 12px;
+border: 2px solid #e0e7ff;
+border-radius: 12px;
+font-size: 16px;
+min-height: 120px;
+margin-bottom: 12px;
+resize: vertical;
+transition: border-color 0.3s;
+font-family: monospace;
+}
+
+textarea:focus {
+border-color: #4a6bff;
+outline: none;
+box-shadow: 0 0 0 3px rgba(74, 107, 255, 0.2);
+}
+
+/* ===== BUTTON STYLES ===== */
+.btn {
+display: block;
+width: 100%;
+padding: 15px;
+background: #4a6bff;
+color: white;
+font-weight: 600;
+font-size: 1.05rem;
+border: none;
+border-radius: 12px;
+cursor: pointer;
+transition: all 0.3s;
+position: relative;
+overflow: hidden;
+margin-top: 12px;
+-webkit-tap-highlight-color: transparent;
+}
+
+.btn::after {
+content: "";
+position: absolute;
+top: -50%;
+left: -50%;
+width: 200%;
+height: 200%;
+background: rgba(255, 255, 255, 0.1);
+transform: rotate(30deg);
+transition: all 0.6s;
+}
+
+.btn:hover {
+background: #3a5bff;
+transform: translateY(-2px);
+box-shadow: 0 5px 12px rgba(58, 91, 255, 0.3);
+}
+
+.btn:hover::after {
+transform: rotate(30deg) translate(10%, 10%);
+}
+
+.btn:active {
+transform: translateY(0);
+}
+
+.btn-saved {
+background: #4CAF50;
+}
+
+.btn-saved:hover {
+background: #43a047;
+}
+
+.file-count {
+text-align: center;
+font-weight: 600;
+margin: 12px 0 8px;
+color: #555;
+font-size: 1rem;
+}
+
+.status {
+padding: 12px;
+border-radius: 8px;
+margin: 12px 0;
+text-align: center;
+font-weight: 500;
+font-size: 1rem;
+}
+
+.status-success {
+background: #e8f5e9;
+color: #2e7d32;
+border: 2px solid #66bb6a;
+}
+
+.status-error {
+background: #ffebee;
+color: #c62828;
+border: 2px solid #ef5350;
+}
+
+.btn-generate {
+background: linear-gradient(to right, #00b09b, #96c93d);
+color: white;
+font-size: 1.1rem;
+padding: 16px;
+box-shadow: 0 4px 12px rgba(0, 176, 155, 0.2);
+position: relative;
+z-index: 1;
+}
+
+.btn-generate::before {
+content: "";
+position: absolute;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+background: linear-gradient(to right, #00b09b, #00b09b);
+opacity: 0;
+transition: opacity 0.3s;
+z-index: -1;
+}
+
+.btn-generate:hover {
+transform: translateY(-2px);
+box-shadow: 0 6px 15px rgba(0, 176, 155, 0.3);
+}
+
+.btn-generate:hover::before {
+opacity: 1;
+}
+
+.btn-preview {
+background: linear-gradient(to right, #ff8a00, #da1b60);
+box-shadow: 0 4px 12px rgba(255, 138, 0, 0.2);
+}
+
+/* ===== FOOTER & STATS ===== */
+footer {
+text-align: center;
+padding: 15px;
+color: #777;
+font-size: 0.9rem;
+background: #f0f4ff;
+}
+
+.action-buttons {
+display: flex;
+flex-direction: column;
+gap: 15px;
+margin-top: 15px;
+}
+
+.stats-card {
+background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+color: white;
+padding: 20px;
+border-radius: 15px;
+margin-top: 15px;
+box-shadow: 0 8px 15px rgba(0,0,0,0.1);
+}
+
+.stats-grid {
+display: grid;
+grid-template-columns: repeat(2, 1fr);
+gap: 12px;
+margin-top: 12px;
+}
+
+.stat-item {
+background: rgba(255, 255, 255, 0.15);
+padding: 12px;
+border-radius: 10px;
+text-align: center;
+backdrop-filter: blur(5px);
+}
+
+.stat-value {
+font-size: 1.8rem;
+font-weight: 700;
+margin: 8px 0;
+}
+
+.stat-label {
+font-size: 0.9rem;
+opacity: 0.9;
+}
+
+/* ===== CUSTOMER INTERFACE ===== */
+.customer-interface {
+display: none;
+position: fixed;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+background: white;
+z-index: 1000;
+overflow-y: auto;
+padding: 15px;
+}
+
+.customer-header {
+background: linear-gradient(to right, #2c3e50, #1a237e);
+color: white;
+padding: 20px 15px;
+text-align: center;
+margin-bottom: 15px;
+border-radius: 15px;
+}
+
+.categories-grid {
+display: grid;
+grid-template-columns: repeat(1, 1fr);
+gap: 15px;
+margin-bottom: 20px;
+}
+
+.category-card {
+background: white;
+border-radius: 15px;
+box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+padding: 20px;
+text-align: center;
+cursor: pointer;
+transition: all 0.3s;
+border: 2px solid transparent;
+}
+
+.category-card:hover {
+transform: translateY(-3px);
+border-color: #4a6bff;
+box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+}
+
+.category-card i {
+font-size: 2.5rem;
+color: #4a6bff;
+margin-bottom: 12px;
+}
+
+.category-card h3 {
+font-size: 1.4rem;
+color: #2c3e50;
+margin-bottom: 8px;
+}
+
+.file-count-badge {
+background: #e3f2fd;
+padding: 4px 12px;
+border-radius: 20px;
+font-weight: 600;
+display: inline-block;
+font-size: 0.9rem;
+}
+
+.pdf-viewer-container {
+display: none;
+margin-top: 15px;
+border: 1px solid #e0e0e0;
+border-radius: 10px;
+overflow: hidden;
+box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+flex-direction: column;
+height: calc(100vh - 180px);
+position: relative;
+}
+
+#cust-pdf-viewer {
+width: 100%;
+height: 100%;
+border: none;
+}
+
+.pdf-controls {
+display: flex;
+flex-direction: column;
+gap: 10px;
+padding: 12px;
+background: #f8f9ff;
+border-top: 1px solid #e0e7ff;
+position: relative;
+z-index: 10;
+}
+
+.ctrl-btn {
+padding: 14px;
+background: #4a6bff;
+color: white;
+border: none;
+border-radius: 8px;
+cursor: pointer;
+font-weight: 600;
+transition: all 0.3s;
+width: 100%;
+box-shadow: 0 3px 6px rgba(0,0,0,0.15);
+font-size: 1.05rem;
+-webkit-tap-highlight-color: transparent;
+}
+
+.ctrl-btn:hover {
+background: #3a5bff;
+transform: translateY(-2px);
+box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+.ctrl-btn i {
+margin: 0 5px;
+}
+
+.progress-container {
+display: flex;
+flex-direction: column;
+gap: 10px;
+padding: 10px;
+background: #f0f4ff;
+border-bottom: 1px solid #e0e7ff;
+}
+
+.progress-bar {
+width: 100%;
+height: 10px;
+background: #e0e7ff;
+border-radius: 5px;
+overflow: hidden;
+}
+
+.progress-fill {
+height: 100%;
+background: linear-gradient(to right, #00b09b, #96c93d);
+width: 0%;
+transition: width 0.3s ease;
+}
+
+.progress-text {
+font-weight: 600;
+color: #4a6bff;
+text-align: center;
+font-size: 1rem;
+}
+
+.donation-section {
+padding: 15px;
+background: #f8f9ff;
+border-radius: 15px;
+text-align: center;
+margin-top: 15px;
+}
+
+.donation-title {
+font-size: 1.2rem;
+color: #2c3e50;
+margin-bottom: 12px;
+display: flex;
+align-items: center;
+justify-content: center;
+gap: 8px;
+}
+
+.donation-buttons {
+display: flex;
+flex-direction: column;
+gap: 10px;
+}
+
+.donate-btn {
+display: flex;
+align-items: center;
+justify-content: center;
+gap: 8px;
+padding: 14px;
+border-radius: 8px;
+font-weight: 600;
+text-decoration: none;
+transition: all 0.3s;
+color: white;
+width: 100%;
+font-size: 1rem;
+}
+
+.donate-btn:hover {
+transform: translateY(-2px);
+box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}
+
+.donate-btn.paypal {
+background: #0070ba;
+}
+
+.donate-btn.paypal:hover {
+background: #005da6;
+}
+
+.donate-btn.venmo {
+background: #008CFF;
+}
+
+.donate-btn.venmo:hover {
+background: #0077d6;
+}
+
+.donate-btn.buymeacoffee {
+background: #ffdd00;
+color: #333;
+}
+
+.donate-btn.buymeacoffee:hover {
+background: #e6c700;
+}
+
+.back-to-admin {
+display: block;
+margin: 15px auto;
+padding: 12px 20px;
+background: #4a6bff;
+color: white;
+border: none;
+border-radius: 8px;
+cursor: pointer;
+font-weight: 600;
+transition: all 0.3s;
+width: 100%;
+max-width: 300px;
+font-size: 1.05rem;
+}
+
+.back-to-admin:hover {
+background: #3a5bff;
+transform: translateY(-2px);
+}
+
+.customization-grid {
+display: grid;
+grid-template-columns: 1fr;
+gap: 12px;
+margin-top: 15px;
+}
+
+.customization-item {
+display: flex;
+flex-direction: column;
+gap: 6px;
+}
+
+.customization-item label {
+font-weight: 600;
+color: #2c3e50;
+display: flex;
+align-items: center;
+gap: 8px;
+font-size: 0.95rem;
+}
+
+.customization-item input {
+padding: 12px;
+border: 2px solid #e0e7ff;
+border-radius: 10px;
+font-size: 1rem;
+transition: all 0.3s;
+}
+
+.customization-item input:focus {
+border-color: #4a6bff;
+outline: none;
+box-shadow: 0 0 0 3px rgba(74, 107, 255, 0.2);
+}
+
+/* ===== TOAST NOTIFICATIONS ===== */
+#toast {
+position: fixed;
+bottom: 20px;
+left: 50%;
+transform: translateX(-50%);
+background-color: rgba(0,0,0,0.7);
+color: white;
+padding: 12px 20px;
+border-radius: 25px;
+z-index: 1000;
+transition: opacity 0.3s;
+opacity: 0;
+pointer-events: none;
+}
+
+/* ===== PRINT STYLES ===== */
+@media print {
+body * {
+visibility: hidden;
+}
+.pdf-viewer-container,
+.pdf-viewer-container * {
+visibility: visible;
+}
+.pdf-viewer-container {
+position: absolute;
+left: 0;
+top: 0;
+width: 100%;
+height: 100%;
+}
+}
+</style>
+</head>
+<body>
+<div class="container">
+<header>
+<h1>Math Bank Manager</h1>
+<p class="subtitle">Organize Your Math Practice Materials</p>
+</header>
+
+<div class="main-content">
+<div class="panel-card">
+<div class="panel-title">
+<i class="fas fa-info-circle"></i>
+<h2>Getting Started</h2>
+</div>
+<div class="instructions">
+<p><strong>How to get Google Drive file IDs:</strong></p>
+<ol>
+<li>Open Google Drive and find your PDF</li>
+<li>Right-click → "Get link" → Set to "Anyone with the link"</li>
+<li>Copy the link and extract the ID:
+<br><code>https://drive.google.com/file/d/<span style="color:#ffcc00">1i80cGYzNj9lkI-Paa6nyqqzRKlJbzCmT</span>/view</code>
+</li>
+<li>Paste IDs below (one per line)</li>
+</ol>
+</div>
+</div>
+
+<div class="panel-card">
+<div class="panel-title">
+<i class="fas fa-palette"></i>
+<h2>Customize Appearance</h2>
+</div>
+<div class="customization-grid">
+<div class="customization-item">
+<label for="title-field"><i class="fas fa-heading"></i> Title</label>
+<input type="text" id="title-field" placeholder="Math Practice Bank" value="Math Practice Bank">
+</div>
+<div class="customization-item">
+<label for="subtitle-field"><i class="fas fa-text-height"></i> Subtitle</label>
+<input type="text" id="subtitle-field" placeholder="Select a category to begin" value="Select a category to begin">
+</div>
+<div class="customization-item">
+<label for="category1-field"><i class="fas fa-tag"></i> Category 1</label>
+<input type="text" id="category1-field" placeholder="Algebra" value="Algebra">
+</div>
+<div class="customization-item">
+<label for="category2-field"><i class="fas fa-tag"></i> Category 2</label>
+<input type="text" id="category2-field" placeholder="Advanced Math" value="Advanced Math">
+</div>
+<div class="customization-item">
+<label for="category3-field"><i class="fas fa-tag"></i> Category 3</label>
+<input type="text" id="category3-field" placeholder="Geometry" value="Geometry">
+</div>
+<div class="customization-item">
+<label for="category4-field"><i class="fas fa-tag"></i> Category 4</label>
+<input type="text" id="category4-field" placeholder="Problem Solving" value="Problem Solving">
+</div>
+<button id="save-customization" class="btn">
+<i class="fas fa-save"></i> Save Customization
+</button>
+</div>
+</div>
+
+<div class="panel-card">
+<div class="panel-title">
+<i class="fas fa-tasks"></i>
+<h2>Manage Categories</h2>
+</div>
+
+<div class="category">
+<div class="category-header">
+<div class="category-title">
+<i class="fas fa-calculator"></i>
+<h3 id="category1-label">Algebra</h3>
+</div>
+<button class="collapse-btn">−</button>
+</div>
+<div class="category-content">
+<textarea id="algebra-ids" placeholder="Paste Algebra file IDs here, one per line:
+1i80cGYzNj9lkI-Paa6nyqqzRKlJbzCmT
+1ckyAltWY7f-5TdNX71iK9-bN0E_07c1k"></textarea>
+<button id="save-algebra" class="btn">Save Algebra Files</button>
+<div class="file-count">Files: <span id="algebra-count">0</span></div>
+<div id="algebra-status" class="status"></div>
+</div>
+</div>
+
+<div class="category">
+<div class="category-header">
+<div class="category-title">
+<i class="fas fa-chart-line"></i>
+<h3 id="category2-label">Advanced Math</h3>
+</div>
+<button class="collapse-btn">−</button>
+</div>
+<div class="category-content">
+<textarea id="advanced-ids" placeholder="Paste Advanced Math file IDs here, one per line:"></textarea>
+<button id="save-advanced" class="btn">Save Advanced Math Files</button>
+<div class="file-count">Files: <span id="advanced-count">0</span></div>
+<div id="advanced-status" class="status"></div>
+</div>
+</div>
+</div>
+
+<div class="panel-card">
+<div class="panel-title">
+<i class="fas fa-shapes"></i>
+<h3 id="category3-label">Geometry</h3>
+</div>
+<div class="category-content">
+<textarea id="geometry-ids" placeholder="Paste Geometry file IDs here, one per line:"></textarea>
+<button id="save-geometry" class="btn">Save Geometry Files</button>
+<div class="file-count">Files: <span id="geometry-count">0</span></div>
+<div id="geometry-status" class="status"></div>
+</div>
+</div>
+
+<div class="panel-card">
+<div class="panel-title">
+<i class="fas fa-lightbulb"></i>
+<h3 id="category4-label">Problem Solving</h3>
+</div>
+<div class="category-content">
+<textarea id="problem-ids" placeholder="Paste Problem Solving file IDs here, one per line:"></textarea>
+<button id="save-problem" class="btn">Save Problem Solving Files</button>
+<div class="file-count">Files: <span id="problem-count">0</span></div>
+<div id="problem-status" class="status"></div>
+</div>
+</div>
+
+<div class="stats-card">
+<h3><i class="fas fa-chart-bar"></i> Statistics</h3>
+<div class="stats-grid">
+<div class="stat-item">
+<div class="stat-value" id="total-files">0</div>
+<div class="stat-label">Total Files</div>
+</div>
+<div class="stat-item">
+<div class="stat-value" id="total-categories">4</div>
+<div class="stat-label">Categories</div>
+</div>
+<div class="stat-item">
+<div class="stat-value" id="saved-files">0</div>
+<div class="stat-label">Saved Files</div>
+</div>
+<div class="stat-item">
+<div class="stat-value">100%</div>
+<div class="stat-label">Local Storage</div>
+</div>
+</div>
+</div>
+
+<div class="action-buttons">
+<button id="generate-btn" class="btn btn-generate">
+<i class="fas fa-download"></i> Generate Math Bank HTML
+</button>
+<button id="preview-btn" class="btn btn-preview">
+<i class="fas fa-eye"></i> Preview Math Bank
+</button>
+</div>
+</div>
+
+<footer>
+<p>All data is stored locally in your browser | No server communication</p>
+</footer>
+</div>
+
+<div class="customer-interface">
+<div class="customer-header">
+<h1 id="cust-title">Math Practice Bank</h1>
+<p id="cust-subtitle">Select a category to begin</p>
+</div>
+
+<div class="categories-grid">
+<div class="category-card" data-category="algebra">
+<i class="fas fa-calculator"></i>
+<h3 id="cust-category1">Algebra</h3>
+<div class="file-count-badge"><span id="cust-algebra-count">0</span> files</div>
+</div>
+
+<div class="category-card" data-category="advanced">
+<i class="fas fa-chart-line"></i>
+<h3 id="cust-category2">Advanced Math</h3>
+<div class="file-count-badge"><span id="cust-advanced-count">0</span> files</div>
+</div>
+
+<div class="category-card" data-category="geometry">
+<i class="fas fa-shapes"></i>
+<h3 id="cust-category3">Geometry</h3>
+<div class="file-count-badge"><span id="cust-geometry-count">0</span> files</div>
+</div>
+
+<div class="category-card" data-category="problem">
+<i class="fas fa-lightbulb"></i>
+<h3 id="cust-category4">Problem Solving</h3>
+<div class="file-count-badge"><span id="cust-problem-count">0</span> files</div>
+</div>
+</div>
+
+<div class="pdf-viewer-container">
+<div class="progress-container">
+<div class="progress-bar">
+<div class="progress-fill" id="progress-fill"></div>
+</div>
+<div class="progress-text" id="progress-text">Question 1 of 10</div>
+</div>
+<iframe id="cust-pdf-viewer"></iframe>
+<div class="pdf-controls">
+<button class="ctrl-btn" id="prev-btn"><i class="fas fa-arrow-left"></i> Previous</button>
+<button class="ctrl-btn" id="back-btn"><i class="fas fa-home"></i> Categories</button>
+<button class="ctrl-btn" id="next-btn">Next <i class="fas fa-arrow-right"></i></button>
+</div>
+</div>
+
+<div class="donation-section">
+<div class="donation-title">
+<i class="fas fa-heart"></i>
+<h3>Support This Project</h3>
+<i class="fas fa-heart"></i>
+</div>
+<div class="donation-buttons">
+<a href="https://paypal.me/yourusername" target="_blank" class="donate-btn paypal">
+<i class="fab fa-paypal"></i> PayPal
+</a>
+<a href="https://venmo.com/yourusername" target="_blank" class="donate-btn venmo">
+<i class="fab fa-vimeo-v"></i> Venmo
+</a>
+<a href="https://buymeacoffee.com/yourusername" target="_blank" class="donate-btn buymeacoffee">
+<i class="fas fa-coffee"></i> Buy Me a Coffee
+</a>
+</div>
+</div>
+
+<button class="back-to-admin"><i class="fas fa-arrow-left"></i> Back to Admin</button>
+</div>
+
+<div id="toast"></div>
+
+<script>
+// Store all file IDs
+const fileDatabase = {
+algebra: [],
+advanced: [],
+geometry: [],
+problem: []
+};
+
+// Store customization settings
+let customizationSettings = {
+title: "Math Practice Bank",
+subtitle: "Select a category to begin",
+category1: "Algebra",
+category2: "Advanced Math",
+category3: "Geometry",
+category4: "Problem Solving"
+};
+
+// State for customer interface
+let currentCategory = '';
+let currentIndex = 0;
+
+// Initialize the page
+function init() {
+// Load saved data if available
+const savedData = localStorage.getItem('mathBankData');
+if (savedData) {
+try {
+const data = JSON.parse(savedData);
+
+// Populate textareas
+document.getElementById('algebra-ids').value = data.algebra.join('\n');
+document.getElementById('advanced-ids').value = data.advanced.join('\n');
+document.getElementById('geometry-ids').value = data.geometry.join('\n');
+document.getElementById('problem-ids').value = data.problem.join('\n');
+
+// Update counts
+updateCount('algebra', data.algebra.length);
+updateCount('advanced', data.advanced.length);
+updateCount('geometry', data.geometry.length);
+updateCount('problem', data.problem.length);
+
+// Update stats
+updateStats();
+
+// Update database
+Object.assign(fileDatabase, data);
+} catch (e) {
+console.error("Error loading saved data:", e);
+}
+}
+
+// Load customization settings
+const savedCustomization = localStorage.getItem('mathBankCustomization');
+if (savedCustomization) {
+try {
+customizationSettings = JSON.parse(savedCustomization);
+
+// Update input fields
+document.getElementById('title-field').value = customizationSettings.title;
+document.getElementById('subtitle-field').value = customizationSettings.subtitle;
+document.getElementById('category1-field').value = customizationSettings.category1;
+document.getElementById('category2-field').value = customizationSettings.category2;
+document.getElementById('category3-field').value = customizationSettings.category3;
+document.getElementById('category4-field').value = customizationSettings.category4;
+
+// Update labels
+updateCustomizationLabels();
+} catch (e) {
+console.error("Error loading customization:", e);
+}
+}
+
+// Set up collapsible sections
+document.querySelectorAll('.collapse-btn').forEach(btn => {
+btn.addEventListener('click', function() {
+const category = this.closest('.category');
+category.classList.toggle('collapsed');
+this.textContent = category.classList.contains('collapsed') ? '+' : '−';
+});
+});
+
+// Set up save buttons
+document.getElementById('save-algebra').addEventListener('click', () => saveCategory('algebra'));
+document.getElementById('save-advanced').addEventListener('click', () => saveCategory('advanced'));
+document.getElementById('save-geometry').addEventListener('click', () => saveCategory('geometry'));
+document.getElementById('save-problem').addEventListener('click', () => saveCategory('problem'));
+
+// Set up customization button
+document.getElementById('save-customization').addEventListener('click', saveCustomization);
+
+// Set up action buttons
+document.getElementById('generate-btn').addEventListener('click', generateMathBank);
+document.getElementById('preview-btn').addEventListener('click', previewMathBank);
+
+// Set up back to admin button
+document.querySelector('.back-to-admin').addEventListener('click', backToAdmin);
+}
+
+// Save customization settings
+function saveCustomization() {
+customizationSettings = {
+title: document.getElementById('title-field').value || "Math Practice Bank",
+subtitle: document.getElementById('subtitle-field').value || "Select a category to begin",
+category1: document.getElementById('category1-field').value || "Algebra",
+category2: document.getElementById('category2-field').value || "Advanced Math",
+category3: document.getElementById('category3-field').value || "Geometry",
+category4: document.getElementById('category4-field').value || "Problem Solving"
+};
+
+// Save to localStorage
+localStorage.setItem('mathBankCustomization', JSON.stringify(customizationSettings));
+
+// Update labels
+updateCustomizationLabels();
+
+// Show success message
+showToast("Customization settings saved!");
+}
+
+// Update labels with customization
+function updateCustomizationLabels() {
+document.getElementById('category1-label').textContent = customizationSettings.category1;
+document.getElementById('category2-label').textContent = customizationSettings.category2;
+document.getElementById('category3-label').textContent = customizationSettings.category3;
+document.getElementById('category4-label').textContent = customizationSettings.category4;
+}
+
+// Save a category
+function saveCategory(category) {
+const textarea = document.getElementById(`${category}-ids`);
+const status = document.getElementById(`${category}-status`);
+const button = document.getElementById(`save-${category}`);
+
+// Reset status
+status.className = 'status';
+status.innerHTML = '';
+
+// Get and clean IDs
+const ids = textarea.value.split('\n')
+.map(id => id.trim())
+.filter(id => id.length > 0);
+
+if (ids.length === 0) {
+status.className = 'status status-error';
+status.innerHTML = 'Please enter at least one file ID';
+return;
+}
+
+// Validate IDs
+const invalidIds = [];
+const validIds = [];
+
+for (const id of ids) {
+if (/^[a-zA-Z0-9_-]{25,}$/.test(id)) {
+validIds.push(id);
+} else {
+invalidIds.push(id);
+}
+}
+
+if (invalidIds.length > 0) {
+status.className = 'status status-error';
+status.innerHTML = `Invalid IDs detected: ${invalidIds.join(', ')}`;
+return;
+}
+
+// Save to database
+fileDatabase[category] = validIds;
+
+// Update UI
+updateCount(category, validIds.length);
+updateStats();
+
+// Show success message
+status.className = 'status status-success';
+status.innerHTML = `Saved ${validIds.length} valid files!`;
+
+// Save to localStorage
+localStorage.setItem('mathBankData', JSON.stringify(fileDatabase));
+
+// Change button to "Saved!" temporarily
+const originalText = button.textContent;
+button.textContent = '✓ Saved!';
+button.classList.add('btn-saved');
+
+setTimeout(() => {
+button.textContent = originalText;
+button.classList.remove('btn-saved');
+}, 2000);
+}
+
+// Update file count display
+function updateCount(category, count) {
+document.getElementById(`${category}-count`).textContent = count;
+}
+
+// Update statistics
+function updateStats() {
+const totalFiles = Object.values(fileDatabase).reduce((sum, arr) => sum + arr.length, 0);
+document.getElementById('total-files').textContent = totalFiles;
+document.getElementById('saved-files').textContent = totalFiles;
+}
+
+// Generate the Math Bank HTML
+function generateMathBank() {
+// Check if we have any files
+const totalFiles = Object.values(fileDatabase).reduce((sum, arr) => sum + arr.length, 0);
+
+if (totalFiles === 0) {
+showToast('Please add files to at least one category');
+return;
+}
+
+// Create the HTML content
+const htmlContent = `<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>${customizationSettings.title}</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+/* Mobile-optimized styles */
+* {
+margin: 0;
+padding: 0;
+box-sizing: border-box;
+font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+}
+
+body {
+background: linear-gradient(135deg, #1a2980, #26d0ce);
+min-height: 100vh;
+padding: 15px;
+color: #333;
+-webkit-tap-highlight-color: transparent;
+}
+
+.container {
+width: 100%;
+max-width: 100%;
+background: white;
+border-radius: 20px;
+box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+overflow: hidden;
+margin: 0 auto;
+}
+
+header {
+background: linear-gradient(to right, #2c3e50, #1a237e);
+color: white;
+padding: 25px 15px;
+text-align: center;
+}
+
+.categories-grid {
+display: grid;
+grid-template-columns: repeat(1, 1fr);
+gap: 15px;
+padding: 20px;
+}
+
+.category-card {
+background: white;
+border-radius: 15px;
+padding: 25px 15px;
+text-align: center;
+box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+cursor: pointer;
+transition: all 0.3s;
+border: 2px solid transparent;
+}
+
+.category-card:hover {
+transform: translateY(-3px);
+border-color: #4a6bff;
+box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+}
+
+.category-card i {
+font-size: 2.5rem;
+color: #4a6bff;
+margin-bottom: 15px;
+}
+
+.category-card h2 {
+color: #2c3e50;
+font-size: 1.4rem;
+margin-bottom: 10px;
+}
+
+.file-count-badge {
+background: #e3f2fd;
+padding: 6px 15px;
+border-radius: 20px;
+font-weight: 600;
+display: inline-block;
+font-size: 0.95rem;
+}
+
+.pdf-viewer-container {
+margin: 15px;
+border: 1px solid #e0e0e0;
+border-radius: 10px;
+overflow: hidden;
+box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+height: calc(100vh - 180px);
+display: flex;
+flex-direction: column;
+position: relative;
+}
+
+#pdf-viewer {
+flex: 1;
+width: 100%;
+border: none;
+}
+
+.pdf-controls {
+display: flex;
+flex-direction: column;
+gap: 10px;
+padding: 12px;
+background: #f8f9ff;
+border-top: 1px solid #e0e7ff;
+}
+
+.ctrl-btn {
+padding: 14px;
+background: #4a6bff;
+color: white;
+border: none;
+border-radius: 8px;
+cursor: pointer;
+font-weight: 600;
+transition: all 0.3s;
+width: 100%;
+box-shadow: 0 3px 6px rgba(0,0,0,0.15);
+font-size: 1.05rem;
+-webkit-tap-highlight-color: transparent;
+}
+
+.ctrl-btn:hover {
+background: #3a5bff;
+transform: translateY(-2px);
+box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+.ctrl-btn i {
+margin: 0 5px;
+}
+
+.progress-container {
+display: flex;
+flex-direction: column;
+gap: 10px;
+padding: 10px;
+background: #f0f4ff;
+border-bottom: 1px solid #e0e7ff;
+}
+
+.progress-bar {
+width: 100%;
+height: 10px;
+background: #e0e7ff;
+border-radius: 5px;
+overflow: hidden;
+}
+
+.progress-fill {
+height: 100%;
+background: linear-gradient(to right, #00b09b, #96c93d);
+width: 0%;
+transition: width 0.3s ease;
+}
+
+.progress-text {
+font-weight: 600;
+color: #4a6bff;
+text-align: center;
+font-size: 1rem;
+}
+
+.donation-section {
+padding: 15px;
+background: #f8f9ff;
+border-radius: 15px;
+text-align: center;
+margin: 15px;
+}
+
+.donation-title {
+font-size: 1.2rem;
+color: #2c3e50;
+margin-bottom: 12px;
+display: flex;
+align-items: center;
+justify-content: center;
+gap: 8px;
+}
+
+.donation-buttons {
+display: flex;
+flex-direction: column;
+gap: 10px;
+}
+
+.donate-btn {
+display: flex;
+align-items: center;
+justify-content: center;
+gap: 8px;
+padding: 14px;
+border-radius: 8px;
+font-weight: 600;
+text-decoration: none;
+transition: all 0.3s;
+color: white;
+width: 100%;
+font-size: 1rem;
+}
+
+.donate-btn:hover {
+transform: translateY(-2px);
+box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}
+
+.donate-btn.paypal {
+background: #0070ba;
+}
+
+.donate-btn.paypal:hover {
+background: #005da6;
+}
+
+.donate-btn.venmo {
+background: #008CFF;
+}
+
+.donate-btn.venmo:hover {
+background: #0077d6;
+}
+
+.donate-btn.buymeacoffee {
+background: #ffdd00;
+color: #333;
+}
+
+.donate-btn.buymeacoffee:hover {
+background: #e6c700;
+}
+
+footer {
+text-align: center;
+padding: 15px;
+color: #777;
+font-size: 0.9rem;
+background: #f0f4ff;
+}
+
+#toast {
+position: fixed;
+bottom: 20px;
+left: 50%;
+transform: translateX(-50%);
+background-color: rgba(0,0,0,0.7);
+color: white;
+padding: 12px 20px;
+border-radius: 25px;
+z-index: 1000;
+transition: opacity 0.3s;
+opacity: 0;
+pointer-events: none;
+}
+</style>
+</head>
+<body>
+<div class="container">
+<header>
+<h1>${customizationSettings.title}</h1>
+<p>${customizationSettings.subtitle}</p>
+</header>
+
+<div class="categories-grid">
+<div class="category-card" data-category="algebra">
+<i class="fas fa-calculator"></i>
+<h2>${customizationSettings.category1}</h2>
+<div class="file-count-badge">${fileDatabase.algebra.length} files</div>
+</div>
+
+<div class="category-card" data-category="advanced">
+<i class="fas fa-chart-line"></i>
+<h2>${customizationSettings.category2}</h2>
+<div class="file-count-badge">${fileDatabase.advanced.length} files</div>
+</div>
+
+<div class="category-card" data-category="geometry">
+<i class="fas fa-shapes"></i>
+<h2>${customizationSettings.category3}</h2>
+<div class="file-count-badge">${fileDatabase.geometry.length} files</div>
+</div>
+
+<div class="category-card" data-category="problem">
+<i class="fas fa-lightbulb"></i>
+<h2>${customizationSettings.category4}</h2>
+<div class="file-count-badge">${fileDatabase.problem.length} files</div>
+</div>
+</div>
+
+<div class="pdf-viewer-container">
+<div class="progress-container">
+<div class="progress-bar">
+<div class="progress-fill" id="progress-fill"></div>
+</div>
+<div class="progress-text" id="progress-text">Question 1 of 10</div>
+</div>
+<iframe id="pdf-viewer"></iframe>
+<div class="pdf-controls">
+<button class="ctrl-btn" id="prev-btn"><i class="fas fa-arrow-left"></i> Previous</button>
+<button class="ctrl-btn" id="back-btn"><i class="fas fa-home"></i> Categories</button>
+<button class="ctrl-btn" id="next-btn">Next <i class="fas fa-arrow-right"></i></button>
+</div>
+</div>
+
+<div class="donation-section">
+<div class="donation-title">
+<i class="fas fa-heart"></i>
+<h3>Support This Project</h3>
+<i class="fas fa-heart"></i>
+</div>
+<div class="donation-buttons">
+<a href="https://paypal.me/yourusername" target="_blank" class="donate-btn paypal">
+<i class="fab fa-paypal"></i> PayPal
+</a>
+<a href="https://venmo.com/yourusername" target="_blank" class="donate-btn venmo">
+<i class="fab fa-vimeo-v"></i> Venmo
+</a>
+<a href="https://buymeacoffee.com/yourusername" target="_blank" class="donate-btn buymeacoffee">
+<i class="fas fa-coffee"></i> Buy Me a Coffee
+</a>
+</div>
+</div>
+
+<footer>
+<p>${customizationSettings.title} | All PDFs remain property of their creators</p>
+</footer>
+</div>
+
+<div id="toast"></div>
+
+<script>
+// File database
+const fileDatabase = ${JSON.stringify(fileDatabase)};
+
+// State management
+let currentCategory = '';
+let currentIndex = 0;
+
+// Check if iOS device
+function isIOS() {
+return /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+}
+
+// Initialize the page
+function init() {
+// Set up category buttons
+document.querySelectorAll('.category-card').forEach(card => {
+card.addEventListener('click', function() {
+const category = this.getAttribute('data-category');
+openPdfViewer(category);
+});
+});
+
+// Set up navigation buttons
+document.getElementById('back-btn').addEventListener('click', backToCategories);
+document.getElementById('prev-btn').addEventListener('click', showPrevQuestion);
+document.getElementById('next-btn').addEventListener('click', showNextQuestion);
+}
+
+// Open PDF viewer for a category
+function openPdfViewer(category) {
+currentCategory = category;
+const files = fileDatabase[category];
+
+if (files.length === 0) {
+showToast('No files available for this category');
+return;
+}
+
+// Handle iOS differently
+if (isIOS()) {
+// Get progress from localStorage
+const progressKey = \`progress-\${currentCategory}\`;
+currentIndex = parseInt(localStorage.getItem(progressKey)) || 0;
+
+// Ensure index is within bounds
+if (currentIndex >= files.length) {
+currentIndex = files.length - 1;
+}
+
+// Open PDF in new tab
+const fileId = files[currentIndex];
+window.open(\`https://drive.google.com/file/d/\${fileId}/view\`, '_blank');
+return;
+}
+
+// Non-iOS devices
+// Get progress from localStorage
+const progressKey = \`progress-\${currentCategory}\`;
+currentIndex = parseInt(localStorage.getItem(progressKey)) || 0;
+
+// Make sure index is within bounds
+if (currentIndex >= files.length) {
+currentIndex = files.length - 1;
+}
+
+// Show PDF viewer
+document.querySelector('.categories-grid').style.display = 'none';
+document.querySelector('.pdf-viewer-container').style.display = 'flex';
+
+// Load the PDF
+loadPDF();
+}
+
+// Load the current PDF
+function loadPDF() {
+const files = fileDatabase[currentCategory];
+const fileId = files[currentIndex];
+
+// Use Google Drive viewer for non-iOS
+document.getElementById('pdf-viewer').src =
+"https://drive.google.com/viewerng/viewer?embedded=true&url=" +
+encodeURIComponent("https://drive.google.com/uc?export=view&id=" + fileId);
+
+// Update progress indicator
+updateProgress();
+}
+
+// Update progress indicator
+function updateProgress() {
+const files = fileDatabase[currentCategory];
+const total = files.length;
+const progress = ((currentIndex + 1) / total) * 100;
+
+document.getElementById('progress-fill').style.width = \`\${progress}%\`;
+document.getElementById('progress-text').textContent =
+\`Question \${currentIndex + 1} of \${total}\`;
+}
+
+// Show previous question
+function showPrevQuestion() {
+if (currentIndex > 0) {
+currentIndex--;
+saveProgress();
+loadPDF();
+}
+}
+
+// Show next question
+function showNextQuestion() {
+const files = fileDatabase[currentCategory];
+if (currentIndex < files.length - 1) {
+currentIndex++;
+saveProgress();
+loadPDF();
+}
+}
+
+// Save progress to localStorage
+function saveProgress() {
+const progressKey = \`progress-\${currentCategory}\`;
+localStorage.setItem(progressKey, currentIndex);
+}
+
+// Back to categories view
+function backToCategories() {
+document.querySelector('.categories-grid').style.display = 'grid';
+document.querySelector('.pdf-viewer-container').style.display = 'none';
+}
+
+// Show toast notification
+function showToast(message) {
+const toast = document.getElementById('toast');
+toast.textContent = message;
+toast.style.opacity = '1';
+
+setTimeout(() => {
+toast.style.opacity = '0';
+}, 3000);
+}
+
+// Initialize when page loads
+window.addEventListener('DOMContentLoaded', init);
+</script>
+</body>
+</html>`;
+
+// Create and trigger download
+const blob = new Blob([htmlContent], {type: 'text/html'});
+const url = URL.createObjectURL(blob);
+
+const a = document.createElement('a');
+a.href = url;
+a.download = 'math-bank.html';
+document.body.appendChild(a);
+a.click();
+document.body.removeChild(a);
+URL.revokeObjectURL(url);
+
+showToast("Math Bank HTML file downloaded! Upload to Netlify for iPhone access.");
+}
+
+// Preview the Math Bank
+function previewMathBank() {
+// Check if we have any files
+const totalFiles = Object.values(fileDatabase).reduce((sum, arr) => sum + arr.length, 0);
+
+if (totalFiles === 0) {
+showToast('Please add files to at least one category');
+return;
+}
+
+// Update customer interface with customization
+document.getElementById('cust-title').textContent = customizationSettings.title;
+document.getElementById('cust-subtitle').textContent = customizationSettings.subtitle;
+document.getElementById('cust-category1').textContent = customizationSettings.category1;
+document.getElementById('cust-category2').textContent = customizationSettings.category2;
+document.getElementById('cust-category3').textContent = customizationSettings.category3;
+document.getElementById('cust-category4').textContent = customizationSettings.category4;
+
+// Show customer interface
+document.querySelector('.container').style.display = 'none';
+document.querySelector('.customer-interface').style.display = 'block';
+
+// Set customer counts
+document.getElementById('cust-algebra-count').textContent = fileDatabase.algebra.length;
+document.getElementById('cust-advanced-count').textContent = fileDatabase.advanced.length;
+document.getElementById('cust-geometry-count').textContent = fileDatabase.geometry.length;
+document.getElementById('cust-problem-count').textContent = fileDatabase.problem.length;
+
+// Initialize customer interface
+initCustomerInterface();
+}
+
+// Initialize customer interface
+function initCustomerInterface() {
+// Set up category buttons
+document.querySelectorAll('.customer-interface .category-card').forEach(card => {
+card.addEventListener('click', function() {
+const category = this.getAttribute('data-category');
+openPdfViewer(category);
+});
+});
+
+// Set up navigation buttons
+document.getElementById('prev-btn').addEventListener('click', showPrevQuestion);
+document.getElementById('next-btn').addEventListener('click', showNextQuestion);
+document.getElementById('back-btn').addEventListener('click', backToCategories);
+}
+
+// Open PDF viewer in customer preview
+function openPdfViewer(category) {
+currentCategory = category;
+const files = fileDatabase[category];
+
+if (files.length === 0) {
+showToast('No files available for this category');
+return;
+}
+
+// Handle iOS differently
+if (isIOS()) {
+// Get progress from localStorage
+const progressKey = `progress-${currentCategory}`;
+currentIndex = parseInt(localStorage.getItem(progressKey)) || 0;
+
+// Ensure index is within bounds
+if (currentIndex >= files.length) {
+currentIndex = files.length - 1;
+}
+
+// Open PDF in new tab
+const fileId = files[currentIndex];
+window.open(`https://drive.google.com/file/d/${fileId}/view`, '_blank');
+return;
+}
+
+// Non-iOS devices
+// Get progress from localStorage
+const progressKey = `progress-${currentCategory}`;
+currentIndex = parseInt(localStorage.getItem(progressKey)) || 0;
+
+// Make sure index is within bounds
+if (currentIndex >= files.length) {
+currentIndex = files.length - 1;
+}
+
+// Hide categories, show PDF viewer
+document.querySelector('.customer-interface .categories-grid').style.display = 'none';
+document.querySelector('.customer-interface .pdf-viewer-container').style.display = 'flex';
+
+// Load the PDF
+document.getElementById('cust-pdf-viewer').src =
+"https://drive.google.com/viewerng/viewer?embedded=true&url=" +
+encodeURIComponent("https://drive.google.com/uc?export=view&id=" + files[currentIndex]);
+
+// Update progress indicator
+updateProgress();
+}
+
+// Check if iOS device
+function isIOS() {
+return /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+}
+
+// Update progress indicator
+function updateProgress() {
+const files = fileDatabase[currentCategory];
+const total = files.length;
+const progress = ((currentIndex + 1) / total) * 100;
+
+document.getElementById('progress-fill').style.width = `${progress}%`;
+document.getElementById('progress-text').textContent =
+`Question ${currentIndex + 1} of ${total}`;
+}
+
+// Show previous question in customer preview
+function showPrevQuestion() {
+if (currentIndex > 0) {
+currentIndex--;
+saveProgress();
+openPdfViewer(currentCategory);
+}
+}
+
+// Show next question in customer preview
+function showNextQuestion() {
+const files = fileDatabase[currentCategory];
+if (currentIndex < files.length - 1) {
+currentIndex++;
+saveProgress();
+openPdfViewer(currentCategory);
+}
+}
+
+// Save progress to localStorage
+function saveProgress() {
+const progressKey = `progress-${currentCategory}`;
+localStorage.setItem(progressKey, currentIndex);
+}
+
+// Back to categories in customer preview
+function backToCategories() {
+document.querySelector('.customer-interface .categories-grid').style.display = 'grid';
+document.querySelector('.customer-interface .pdf-viewer-container').style.display = 'none';
+}
+
+// Back to admin interface
+function backToAdmin() {
+document.querySelector('.customer-interface').style.display = 'none';
+document.querySelector('.container').style.display = 'block';
+}
+
+// Show toast notification
+function showToast(message) {
+const toast = document.getElementById('toast');
+toast.textContent = message;
+toast.style.opacity = '1';
+
+setTimeout(() => {
+toast.style.opacity = '0';
+}, 3000);
+}
+
+// Initialize the page
+window.addEventListener('DOMContentLoaded', init);
+</script>
+</body>
+</html>
