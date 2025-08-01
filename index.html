@@ -20,6 +20,7 @@ min-height: 100vh;
 padding: 15px;
 color: #333;
 -webkit-tap-highlight-color: transparent;
+position: relative;
 }
 
 .container {
@@ -642,47 +643,6 @@ opacity: 0;
 pointer-events: none;
 }
 
-/* ===== DEBUG CONSOLE ===== */
-#debug-console {
-position: fixed;
-bottom: 0;
-left: 0;
-right: 0;
-background: rgba(0,0,0,0.9);
-color: #00ff00;
-padding: 10px;
-font-family: monospace;
-font-size: 14px;
-max-height: 200px;
-overflow-y: auto;
-z-index: 2000;
-display: none;
-}
-
-#debug-toggle {
-position: fixed;
-bottom: 10px;
-right: 10px;
-z-index: 2001;
-background: #333;
-color: white;
-border: none;
-border-radius: 50%;
-width: 40px;
-height: 40px;
-cursor: pointer;
-display: flex;
-align-items: center;
-justify-content: center;
-box-shadow: 0 2px 5px rgba(0,0,0,0.3);
-}
-
-#debug-output {
-white-space: pre-wrap;
-word-break: break-word;
-line-height: 1.4;
-}
-
 /* ===== PRINT STYLES ===== */
 @media print {
 body * {
@@ -939,42 +899,7 @@ height: 100%;
 
 <div id="toast"></div>
 
-<!-- Debug Console -->
-<button id="debug-toggle" title="Toggle Debug Console">
-<i class="fas fa-bug"></i>
-</button>
-<div id="debug-console">
-<button onclick="document.getElementById('debug-console').style.display='none'" style="float:right; background:#555; color:white; border:none; padding:2px 8px; border-radius:3px;">Close</button>
-<h4 style="color:white; margin-bottom:8px;">Debug Console</h4>
-<pre id="debug-output">Debug console initialized...</pre>
-</div>
-
 <script>
-// Debugging functions
-function debugLog(message) {
-const output = document.getElementById('debug-output');
-if(output) {
-output.textContent += message + '\n';
-output.scrollTop = output.scrollHeight;
-}
-console.log(message);
-}
-
-function debugError(message) {
-const output = document.getElementById('debug-output');
-if(output) {
-output.textContent += 'ERROR: ' + message + '\n';
-output.scrollTop = output.scrollHeight;
-}
-console.error(message);
-}
-
-// Toggle debug console
-document.getElementById('debug-toggle').addEventListener('click', function() {
-const consoleEl = document.getElementById('debug-console');
-consoleEl.style.display = consoleEl.style.display === 'block' ? 'none' : 'block';
-});
-
 // Store all file IDs
 const fileDatabase = {
 algebra: [],
@@ -999,27 +924,12 @@ let currentIndex = 0;
 
 // Initialize the page
 function init() {
-debugLog("Initializing application...");
-
-// Test localStorage access
-try {
-localStorage.setItem('mathbank_test', 'test_value');
-if(localStorage.getItem('mathbank_test') !== 'test_value') {
-throw new Error("LocalStorage read/write failed");
-}
-localStorage.removeItem('mathbank_test');
-debugLog("LocalStorage test passed");
-} catch (e) {
-debugError("LocalStorage error: " + e.message);
-showToast("Error: LocalStorage access is blocked. Please check your browser settings.");
-return;
-}
-
 // Load saved data if available
-try {
 const savedData = localStorage.getItem('mathBankData');
 if (savedData) {
+try {
 const data = JSON.parse(savedData);
+
 // Populate textareas
 document.getElementById('algebra-ids').value = data.algebra.join('\n');
 document.getElementById('advanced-ids').value = data.advanced.join('\n');
@@ -1037,17 +947,15 @@ updateStats();
 
 // Update database
 Object.assign(fileDatabase, data);
-debugLog("Loaded saved data");
-}
 } catch (e) {
-debugError("Error loading saved data: " + e.message);
-showToast("Error loading saved data: " + e.message);
+console.error("Error loading saved data:", e);
+}
 }
 
 // Load customization settings
-try {
 const savedCustomization = localStorage.getItem('mathBankCustomization');
 if (savedCustomization) {
+try {
 customizationSettings = JSON.parse(savedCustomization);
 
 // Update input fields
@@ -1060,11 +968,9 @@ document.getElementById('category4-field').value = customizationSettings.categor
 
 // Update labels
 updateCustomizationLabels();
-debugLog("Loaded customization settings");
-}
 } catch (e) {
-debugError("Error loading customization: " + e.message);
-showToast("Error loading customization: " + e.message);
+console.error("Error loading customization:", e);
+}
 }
 
 // Set up collapsible sections
@@ -1076,7 +982,7 @@ this.textContent = category.classList.contains('collapsed') ? '+' : '−';
 });
 });
 
-// Set up save buttons with enhanced error handling
+// Set up save buttons
 document.getElementById('save-algebra').addEventListener('click', () => saveCategory('algebra'));
 document.getElementById('save-advanced').addEventListener('click', () => saveCategory('advanced'));
 document.getElementById('save-geometry').addEventListener('click', () => saveCategory('geometry'));
@@ -1091,14 +997,10 @@ document.getElementById('preview-btn').addEventListener('click', previewMathBank
 
 // Set up back to admin button
 document.querySelector('.back-to-admin').addEventListener('click', backToAdmin);
-
-debugLog("Initialization complete");
 }
 
 // Save customization settings
 function saveCustomization() {
-debugLog("Saving customization settings...");
-try {
 customizationSettings = {
 title: document.getElementById('title-field').value || "Math Practice Bank",
 subtitle: document.getElementById('subtitle-field').value || "Select a category to begin",
@@ -1116,11 +1018,6 @@ updateCustomizationLabels();
 
 // Show success message
 showToast("Customization settings saved!");
-debugLog("Customization settings saved successfully");
-} catch (e) {
-debugError("Error saving customization: " + e.message);
-showToast("Error saving customization: " + e.message);
-}
 }
 
 // Update labels with customization
@@ -1133,15 +1030,9 @@ document.getElementById('category4-label').textContent = customizationSettings.c
 
 // Save a category
 function saveCategory(category) {
-debugLog(`Saving category: ${category}`);
-try {
 const textarea = document.getElementById(`${category}-ids`);
 const status = document.getElementById(`${category}-status`);
 const button = document.getElementById(`save-${category}`);
-
-if (!textarea || !status || !button) {
-throw new Error(`Required elements not found for ${category}`);
-}
 
 // Reset status
 status.className = 'status';
@@ -1189,7 +1080,6 @@ status.innerHTML = `Saved ${validIds.length} valid files!`;
 
 // Save to localStorage
 localStorage.setItem('mathBankData', JSON.stringify(fileDatabase));
-debugLog(`Saved ${validIds.length} files to ${category}`);
 
 // Change button to "Saved!" temporarily
 const originalText = button.textContent;
@@ -1200,10 +1090,6 @@ setTimeout(() => {
 button.textContent = originalText;
 button.classList.remove('btn-saved');
 }, 2000);
-} catch (e) {
-debugError(`Error saving ${category}: ${e.message}`);
-showToast(`Error saving ${category}: ${e.message}`);
-}
 }
 
 // Update file count display
@@ -1220,8 +1106,6 @@ document.getElementById('saved-files').textContent = totalFiles;
 
 // Generate the Math Bank HTML
 function generateMathBank() {
-debugLog("Generating Math Bank HTML...");
-try {
 // Check if we have any files
 const totalFiles = Object.values(fileDatabase).reduce((sum, arr) => sum + arr.length, 0);
 
@@ -1491,6 +1375,39 @@ transition: opacity 0.3s;
 opacity: 0;
 pointer-events: none;
 }
+
+@media (min-width: 768px) {
+.categories-grid {
+grid-template-columns: repeat(2, 1fr);
+}
+
+.pdf-controls {
+flex-direction: row;
+flex-wrap: wrap;
+}
+
+.ctrl-btn {
+width: auto;
+flex: 1;
+}
+
+.donation-buttons {
+flex-direction: row;
+flex-wrap: wrap;
+justify-content: center;
+}
+
+.donate-btn {
+width: auto;
+min-width: 180px;
+}
+}
+
+@media (min-width: 992px) {
+.container {
+max-width: 1200px;
+}
+}
 </style>
 </head>
 <body>
@@ -1727,17 +1644,10 @@ document.body.removeChild(a);
 URL.revokeObjectURL(url);
 
 showToast("Math Bank HTML file downloaded! Upload to Netlify for iPhone access.");
-debugLog("Math Bank HTML generated and downloaded");
-} catch (e) {
-debugError("Error generating Math Bank: " + e.message);
-showToast("Error generating Math Bank: " + e.message);
-}
 }
 
 // Preview the Math Bank
 function previewMathBank() {
-debugLog("Previewing Math Bank...");
-try {
 // Check if we have any files
 const totalFiles = Object.values(fileDatabase).reduce((sum, arr) => sum + arr.length, 0);
 
@@ -1766,11 +1676,6 @@ document.getElementById('cust-problem-count').textContent = fileDatabase.problem
 
 // Initialize customer interface
 initCustomerInterface();
-debugLog("Math Bank preview initialized");
-} catch (e) {
-debugError("Error previewing Math Bank: " + e.message);
-showToast("Error previewing Math Bank: " + e.message);
-}
 }
 
 // Initialize customer interface
@@ -1791,7 +1696,6 @@ document.getElementById('back-btn').addEventListener('click', backToCategories);
 
 // Open PDF viewer in customer preview
 function openPdfViewer(category) {
-try {
 currentCategory = category;
 const files = fileDatabase[category];
 
@@ -1838,11 +1742,6 @@ encodeURIComponent("https://drive.google.com/uc?export=view&id=" + files[current
 
 // Update progress indicator
 updateProgress();
-debugLog(`Opened PDF viewer for ${category}`);
-} catch (e) {
-debugError("Error opening PDF viewer: " + e.message);
-showToast("Error opening PDF: " + e.message);
-}
 }
 
 // Check if iOS device
@@ -1852,7 +1751,6 @@ return /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
 
 // Update progress indicator
 function updateProgress() {
-try {
 const files = fileDatabase[currentCategory];
 const total = files.length;
 const progress = ((currentIndex + 1) / total) * 100;
@@ -1860,9 +1758,6 @@ const progress = ((currentIndex + 1) / total) * 100;
 document.getElementById('progress-fill').style.width = `${progress}%`;
 document.getElementById('progress-text').textContent =
 `Question ${currentIndex + 1} of ${total}`;
-} catch (e) {
-debugError("Error updating progress: " + e.message);
-}
 }
 
 // Show previous question in customer preview
@@ -1913,18 +1808,8 @@ toast.style.opacity = '0';
 }, 3000);
 }
 
-// Start the application
-try {
-if (document.readyState !== 'loading') {
-init();
-} else {
-document.addEventListener('DOMContentLoaded', init);
-}
-debugLog("Application started successfully");
-} catch (e) {
-debugError("Critical initialization error: " + e.message);
-showToast("Critical error: " + e.message);
-}
+// Initialize the page
+window.addEventListener('DOMContentLoaded', init);
 </script>
 </body>
 </html>
