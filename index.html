@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Math Practice Forever Bank</title>
+<title>Math Practice Bank for Mobiles</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <style>
 * {
@@ -11,6 +11,7 @@ margin: 0;
 padding: 0;
 box-sizing: border-box;
 font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+touch-action: manipulation;
 }
 
 body {
@@ -117,15 +118,15 @@ border: none;
 
 .pdf-controls {
 position: absolute;
-top: 15px;
-left: 15px;
+bottom: 25%; /* Positioned at quarter height from bottom */
+right: 20px; /* Positioned on the right side */
 z-index: 2000;
 }
 
 .ctrl-btn {
-padding: 12px 18px;
-background: rgba(255, 255, 255, 0.9);
-color: #2c3e50;
+padding: 14px 18px;
+background: rgba(74, 107, 255, 0.85);
+color: white;
 border: none;
 border-radius: 30px;
 cursor: pointer;
@@ -137,11 +138,41 @@ align-items: center;
 gap: 8px;
 font-size: 1rem;
 backdrop-filter: blur(5px);
-border: 1px solid rgba(0,0,0,0.1);
+border: 1px solid rgba(255, 255, 255, 0.3);
+min-width: 160px;
+justify-content: center;
 }
 
 .ctrl-btn:active {
 transform: scale(0.95);
+background: #3a5bff;
+}
+
+.swipe-indicator {
+position: absolute;
+bottom: 60px;
+left: 0;
+right: 0;
+text-align: center;
+color: white;
+font-size: 1rem;
+background: rgba(0, 0, 0, 0.5);
+padding: 8px 15px;
+border-radius: 20px;
+z-index: 2000;
+max-width: 300px;
+margin: 0 auto;
+display: flex;
+align-items: center;
+justify-content: center;
+gap: 8px;
+animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+0% { opacity: 0.7; }
+50% { opacity: 1; }
+100% { opacity: 0.7; }
 }
 
 .progress-container {
@@ -280,27 +311,27 @@ padding: 4px 10px;
 <body>
 <div class="container">
 <header>
-<h1>Math Practice Forever Bank</h1>
-<p>It is simle, it is hard.</p>
+<h1>Math Practice Bank for Mobiles</h1>
+<p>Select a category to begin till the end</p>
 </header>
 
 <div class="categories-grid">
 <div class="category-card" data-category="algebra">
 <i class="fas fa-calculator"></i>
 <h2>Algebra</h2>
-<div class="file-count-badge">40 files</div>
+<div class="file-count-badge">5 files</div>
 </div>
 
 <div class="category-card" data-category="advanced">
 <i class="fas fa-chart-line"></i>
 <h2>Advanced Math</h2>
-<div class="file-count-badge">2 files</div>
+<div class="file-count-badge">5 files</div>
 </div>
 
 <div class="category-card" data-category="geometry">
 <i class="fas fa-shapes"></i>
 <h2>Geometry</h2>
-<div class="file-count-badge">4 files</div>
+<div class="file-count-badge">5 files</div>
 </div>
 
 <div class="category-card" data-category="problem">
@@ -315,6 +346,9 @@ padding: 4px 10px;
 <button class="ctrl-btn" id="back-btn">
 <i class="fas fa-arrow-left"></i> Back to Categories
 </button>
+</div>
+<div class="swipe-indicator">
+<i class="fas fa-arrows-left-right"></i> Swipe left/right to navigate
 </div>
 <iframe id="pdf-viewer"></iframe>
 <div class="progress-container">
@@ -345,17 +379,19 @@ padding: 4px 10px;
 </div>
 
 <footer>
-<p>Math Practice Forever Bank | All PDFs remain property of their creators</p>
+<p>Math Practice Bank for Mobiles | All PDFs remain property of their creators</p>
 </footer>
 </div>
 
 <script>
 // File database
-const fileDatabase = {"algebra":["15_Io0ryHHCn1SI_S3x6QRWyyosqzJPtB","1qnkxzUs0j8N0c9_zJaony0jMsVr56Wu9","1s1sb1ZEpmy50-dOzD898_jek3gtvvd40","1A4WIWJQMXteCLmpXiEG_qaTfxhm9Ldop","1sJWN06NGZeZTZtvx1akWwQ8iB2xDWAkV","15_Io0ryHHCn1SI_S3x6QRWyyosqzJPtB","1qnkxzUs0j8N0c9_zJaony0jMsVr56Wu9","1s1sb1ZEpmy50-dOzD898_jek3gtvvd40","1A4WIWJQMXteCLmpXiEG_qaTfxhm9Ldop","1sJWN06NGZeZTZtvx1akWwQ8iB2xDWAkV","15_Io0ryHHCn1SI_S3x6QRWyyosqzJPtB","1qnkxzUs0j8N0c9_zJaony0jMsVr56Wu9","1s1sb1ZEpmy50-dOzD898_jek3gtvvd40","1A4WIWJQMXteCLmpXiEG_qaTfxhm9Ldop","1sJWN06NGZeZTZtvx1akWwQ8iB2xDWAkV","15_Io0ryHHCn1SI_S3x6QRWyyosqzJPtB","1qnkxzUs0j8N0c9_zJaony0jMsVr56Wu9","1s1sb1ZEpmy50-dOzD898_jek3gtvvd40","1A4WIWJQMXteCLmpXiEG_qaTfxhm9Ldop","1sJWN06NGZeZTZtvx1akWwQ8iB2xDWAkV","15_Io0ryHHCn1SI_S3x6QRWyyosqzJPtB","1qnkxzUs0j8N0c9_zJaony0jMsVr56Wu9","1s1sb1ZEpmy50-dOzD898_jek3gtvvd40","1A4WIWJQMXteCLmpXiEG_qaTfxhm9Ldop","1sJWN06NGZeZTZtvx1akWwQ8iB2xDWAkV","15_Io0ryHHCn1SI_S3x6QRWyyosqzJPtB","1qnkxzUs0j8N0c9_zJaony0jMsVr56Wu9","1s1sb1ZEpmy50-dOzD898_jek3gtvvd40","1A4WIWJQMXteCLmpXiEG_qaTfxhm9Ldop","1sJWN06NGZeZTZtvx1akWwQ8iB2xDWAkV","15_Io0ryHHCn1SI_S3x6QRWyyosqzJPtB","1qnkxzUs0j8N0c9_zJaony0jMsVr56Wu9","1s1sb1ZEpmy50-dOzD898_jek3gtvvd40","1A4WIWJQMXteCLmpXiEG_qaTfxhm9Ldop","1sJWN06NGZeZTZtvx1akWwQ8iB2xDWAkV","15_Io0ryHHCn1SI_S3x6QRWyyosqzJPtB","1qnkxzUs0j8N0c9_zJaony0jMsVr56Wu9","1s1sb1ZEpmy50-dOzD898_jek3gtvvd40","1A4WIWJQMXteCLmpXiEG_qaTfxhm9Ldop","1sJWN06NGZeZTZtvx1akWwQ8iB2xDWAkV"],"advanced":["1A4WIWJQMXteCLmpXiEG_qaTfxhm9Ldop","1sJWN06NGZeZTZtvx1akWwQ8iB2xDWAkV"],"geometry":["1qnkxzUs0j8N0c9_zJaony0jMsVr56Wu9","1s1sb1ZEpmy50-dOzD898_jek3gtvvd40","1A4WIWJQMXteCLmpXiEG_qaTfxhm9Ldop","1sJWN06NGZeZTZtvx1akWwQ8iB2xDWAkV"],"problem":["15_Io0ryHHCn1SI_S3x6QRWyyosqzJPtB","1qnkxzUs0j8N0c9_zJaony0jMsVr56Wu9","1s1sb1ZEpmy50-dOzD898_jek3gtvvd40","1A4WIWJQMXteCLmpXiEG_qaTfxhm9Ldop","1sJWN06NGZeZTZtvx1akWwQ8iB2xDWAkV"]};
+const fileDatabase = {"algebra":["15_Io0ryHHCn1SI_S3x6QRWyyosqzJPtB","1qnkxzUs0j8N0c9_zJaony0jMsVr56Wu9","1s1sb1ZEpmy50-dOzD898_jek3gtvvd40","1A4WIWJQMXteCLmpXiEG_qaTfxhm9Ldop","1sJWN06NGZeZTZtvx1akWwQ8iB2xDWAkV"],"advanced":["15_Io0ryHHCn1SI_S3x6QRWyyosqzJPtB","1qnkxzUs0j8N0c9_zJaony0jMsVr56Wu9","1s1sb1ZEpmy50-dOzD898_jek3gtvvd40","1A4WIWJQMXteCLmpXiEG_qaTfxhm9Ldop","1sJWN06NGZeZTZtvx1akWwQ8iB2xDWAkV"],"geometry":["15_Io0ryHHCn1SI_S3x6QRWyyosqzJPtB","1qnkxzUs0j8N0c9_zJaony0jMsVr56Wu9","1s1sb1ZEpmy50-dOzD898_jek3gtvvd40","1A4WIWJQMXteCLmpXiEG_qaTfxhm9Ldop","1sJWN06NGZeZTZtvx1akWwQ8iB2xDWAkV"],"problem":["15_Io0ryHHCn1SI_S3x6QRWyyosqzJPtB","1qnkxzUs0j8N0c9_zJaony0jMsVr56Wu9","1s1sb1ZEpmy50-dOzD898_jek3gtvvd40","1A4WIWJQMXteCLmpXiEG_qaTfxhm9Ldop","1sJWN06NGZeZTZtvx1akWwQ8iB2xDWAkV"]};
 
 // State management
 let currentCategory = '';
 let currentIndex = 0;
+let touchStartX = 0;
+let touchEndX = 0;
 
 // Initialize the page
 function init() {
@@ -369,6 +405,35 @@ openPdfViewer(category);
 
 // Set up navigation buttons
 document.getElementById('back-btn').addEventListener('click', backToCategories);
+
+// Set up touch events for PDF navigation
+const pdfContainer = document.querySelector('.pdf-viewer-container');
+pdfContainer.addEventListener('touchstart', handleTouchStart, false);
+pdfContainer.addEventListener('touchend', handleTouchEnd, false);
+}
+
+function handleTouchStart(event) {
+touchStartX = event.changedTouches[0].screenX;
+}
+
+function handleTouchEnd(event) {
+touchEndX = event.changedTouches[0].screenX;
+handleSwipe();
+}
+
+function handleSwipe() {
+const swipeThreshold = 50; // Minimum swipe distance
+const swipeDistance = touchEndX - touchStartX;
+
+if (Math.abs(swipeDistance) > swipeThreshold) {
+if (swipeDistance > 0) {
+// Swiped right to left - next page
+showNextQuestion();
+} else {
+// Swiped left to right - previous page
+showPrevQuestion();
+}
+}
 }
 
 // Open PDF viewer for a category
@@ -422,6 +487,31 @@ const progress = ((currentIndex + 1) / total) * 100;
 document.getElementById('progress-fill').style.width = `${progress}%`;
 document.getElementById('progress-text').textContent =
 `Question ${currentIndex + 1} of ${total}`;
+}
+
+// Show previous question
+function showPrevQuestion() {
+if (currentIndex > 0) {
+currentIndex--;
+saveProgress();
+loadPDF();
+}
+}
+
+// Show next question
+function showNextQuestion() {
+const files = fileDatabase[currentCategory];
+if (currentIndex < files.length - 1) {
+currentIndex++;
+saveProgress();
+loadPDF();
+}
+}
+
+// Save progress to localStorage
+function saveProgress() {
+const progressKey = `progress-${currentCategory}`;
+localStorage.setItem(progressKey, currentIndex);
 }
 
 // Back to categories view
