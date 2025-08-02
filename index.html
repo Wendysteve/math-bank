@@ -2,8 +2,8 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Math Practice Bank</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Math Practice Forever Bank</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <style>
 * {
@@ -16,24 +16,26 @@ font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 body {
 background: linear-gradient(135deg, #1a2980, #26d0ce);
 min-height: 100vh;
-padding: 10px;
 color: #333;
+overflow-x: hidden;
 }
 
 .container {
 max-width: 100%;
 margin: 0 auto;
 background: white;
-border-radius: 10px;
-box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
 overflow: hidden;
+min-height: 100vh;
+display: flex;
+flex-direction: column;
 }
 
 header {
 background: linear-gradient(to right, #2c3e50, #1a237e);
 color: white;
-padding: 20px 10px;
+padding: 20px 15px;
 text-align: center;
+position: relative;
 }
 
 header h1 {
@@ -48,17 +50,18 @@ opacity: 0.9;
 
 .categories-grid {
 display: grid;
-grid-template-columns: 1fr;
-gap: 15px;
+grid-template-columns: repeat(2, 1fr);
+gap: 12px;
 padding: 15px;
+flex: 1;
 }
 
 .category-card {
 background: white;
-border-radius: 15px;
+border-radius: 12px;
 padding: 20px;
 text-align: center;
-box-shadow: 0 7px 20px rgba(0, 0, 0, 0.1);
+box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
 cursor: pointer;
 transition: all 0.3s;
 border: 2px solid transparent;
@@ -68,10 +71,9 @@ align-items: center;
 justify-content: center;
 }
 
-.category-card:hover {
-transform: translateY(-5px);
-border-color: #4a6bff;
-box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+.category-card:active {
+transform: scale(0.98);
+background: #f8f9ff;
 }
 
 .category-card i {
@@ -96,16 +98,15 @@ font-size: 0.95rem;
 }
 
 .pdf-viewer-container {
-margin: 10px;
-border: 1px solid #e0e0e0;
-border-radius: 10px;
-overflow: hidden;
-box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-display: flex;
-flex-direction: column;
-height: calc(100vh - 200px);
-position: relative;
+position: fixed;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+background: white;
+z-index: 1000;
 display: none;
+flex-direction: column;
 }
 
 #pdf-viewer {
@@ -115,61 +116,52 @@ border: none;
 }
 
 .pdf-controls {
-display: flex;
-flex-direction: column;
-gap: 10px;
-padding: 10px;
-position: fixed;
-bottom: 0;
-left: 0;
-right: 0;
-z-index: 100;
-background: rgba(255, 255, 255, 0.95);
-border-top: 1px solid #e0e7ff;
-box-shadow: 0 -5px 15px rgba(0,0,0,0.2);
+position: absolute;
+top: 15px;
+left: 15px;
+z-index: 2000;
 }
 
 .ctrl-btn {
-padding: 14px;
-background: #4a6bff;
-color: white;
+padding: 12px 18px;
+background: rgba(255, 255, 255, 0.9);
+color: #2c3e50;
 border: none;
-border-radius: 8px;
+border-radius: 30px;
 cursor: pointer;
 font-weight: 600;
 transition: all 0.3s;
-width: 100%;
-font-size: 1rem;
-box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
 display: flex;
 align-items: center;
-justify-content: center;
 gap: 8px;
+font-size: 1rem;
+backdrop-filter: blur(5px);
+border: 1px solid rgba(0,0,0,0.1);
 }
 
-.ctrl-btn:hover {
-background: #3a5bff;
-transform: translateY(-2px);
-box-shadow: 0 6px 12px rgba(0,0,0,0.25);
+.ctrl-btn:active {
+transform: scale(0.95);
 }
 
 .progress-container {
+position: absolute;
+bottom: 20px;
+left: 0;
+right: 0;
 display: flex;
 justify-content: center;
 align-items: center;
 gap: 10px;
 padding: 10px;
-background: #f0f4ff;
-border-bottom: 1px solid #e0e7ff;
-position: relative;
-z-index: 10;
+z-index: 2000;
 }
 
 .progress-bar {
-flex: 1;
-height: 10px;
-background: #e0e7ff;
-border-radius: 5px;
+width: 70%;
+height: 8px;
+background: rgba(255, 255, 255, 0.5);
+border-radius: 4px;
 overflow: hidden;
 max-width: 300px;
 }
@@ -183,10 +175,13 @@ transition: width 0.3s ease;
 
 .progress-text {
 font-weight: 600;
-color: #4a6bff;
+color: white;
 min-width: 100px;
 text-align: center;
 font-size: 0.9rem;
+background: rgba(0, 0, 0, 0.5);
+padding: 5px 12px;
+border-radius: 20px;
 }
 
 .donation-section {
@@ -194,7 +189,7 @@ padding: 15px;
 background: #f8f9ff;
 border-radius: 15px;
 text-align: center;
-margin: 15px 10px;
+margin: 15px;
 }
 
 .donation-title {
@@ -229,34 +224,21 @@ max-width: 280px;
 justify-content: center;
 }
 
-.donate-btn:hover {
-transform: translateY(-3px);
-box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+.donate-btn:active {
+transform: scale(0.98);
 }
 
 .donate-btn.paypal {
 background: #0070ba;
 }
 
-.donate-btn.paypal:hover {
-background: #005da6;
-}
-
 .donate-btn.venmo {
 background: #008CFF;
-}
-
-.donate-btn.venmo:hover {
-background: #0077d6;
 }
 
 .donate-btn.buymeacoffee {
 background: #ffdd00;
 color: #333;
-}
-
-.donate-btn.buymeacoffee:hover {
-background: #e6c700;
 }
 
 footer {
@@ -267,123 +249,30 @@ font-size: 0.85rem;
 background: #f0f4ff;
 }
 
-/* Tablet and Desktop */
-@media (min-width: 768px) {
-body {
-padding: 20px;
-}
-
-.container {
-max-width: 1200px;
-border-radius: 20px;
-}
-
-header {
-padding: 25px 20px;
-}
-
-header h1 {
-font-size: 2.2rem;
-margin-bottom: 10px;
-}
-
-header p {
-font-size: 1.3rem;
-}
-
+/* Landscape optimization */
+@media (orientation: landscape) {
 .categories-grid {
-grid-template-columns: repeat(2, 1fr);
-gap: 20px;
-padding: 30px;
+grid-template-columns: repeat(4, 1fr);
+gap: 8px;
+padding: 10px;
 }
 
 .category-card {
-padding: 30px 20px;
+padding: 15px 10px;
 }
 
 .category-card i {
-font-size: 3rem;
-margin-bottom: 20px;
+font-size: 2rem;
+margin-bottom: 8px;
 }
 
 .category-card h2 {
-font-size: 1.6rem;
-margin-bottom: 15px;
+font-size: 1.2rem;
 }
 
 .file-count-badge {
-padding: 8px 20px;
-font-size: 1rem;
-}
-
-.pdf-viewer-container {
-margin: 20px;
-height: 85vh;
-}
-
-.pdf-controls {
-flex-direction: row;
-justify-content: center;
-position: absolute;
-bottom: 10px;
-left: 50%;
-transform: translateX(-50%);
-width: auto;
-max-width: 90%;
-border-radius: 12px;
-box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-padding: 10px;
-gap: 15px;
-border: 1px solid #e0e7ff;
-}
-
-.ctrl-btn {
-width: auto;
-min-width: 180px;
-padding: 10px 20px;
-font-size: 1.1rem;
-}
-
-.progress-container {
-gap: 15px;
-padding: 10px;
-}
-
-.progress-bar {
-height: 12px;
-max-width: 400px;
-}
-
-.progress-text {
-min-width: 120px;
-font-size: 1rem;
-}
-
-.donation-section {
-padding: 20px;
-margin: 20px;
-}
-
-.donation-title {
-font-size: 1.3rem;
-margin-bottom: 15px;
-gap: 10px;
-}
-
-.donation-buttons {
-flex-direction: row;
-justify-content: center;
-flex-wrap: wrap;
-}
-
-.donate-btn {
-width: auto;
-min-width: 160px;
-}
-
-footer {
-padding: 20px;
-font-size: 0.95rem;
+font-size: 0.85rem;
+padding: 4px 10px;
 }
 }
 </style>
@@ -391,15 +280,15 @@ font-size: 0.95rem;
 <body>
 <div class="container">
 <header>
-<h1>Math Practice Bank</h1>
-<p>It is simle.</p>
+<h1>Math Practice Forever Bank</h1>
+<p>It is simle, it is hard.</p>
 </header>
 
 <div class="categories-grid">
 <div class="category-card" data-category="algebra">
 <i class="fas fa-calculator"></i>
 <h2>Algebra</h2>
-<div class="file-count-badge">20 files</div>
+<div class="file-count-badge">40 files</div>
 </div>
 
 <div class="category-card" data-category="advanced">
@@ -422,17 +311,17 @@ font-size: 0.95rem;
 </div>
 
 <div class="pdf-viewer-container">
+<div class="pdf-controls">
+<button class="ctrl-btn" id="back-btn">
+<i class="fas fa-arrow-left"></i> Back to Categories
+</button>
+</div>
+<iframe id="pdf-viewer"></iframe>
 <div class="progress-container">
 <div class="progress-bar">
 <div class="progress-fill" id="progress-fill"></div>
 </div>
 <div class="progress-text" id="progress-text">Question 1 of 10</div>
-</div>
-<iframe id="pdf-viewer"></iframe>
-<div class="pdf-controls">
-<button class="ctrl-btn" id="prev-btn"><i class="fas fa-arrow-left"></i> Previous</button>
-<button class="ctrl-btn" id="back-btn"><i class="fas fa-home"></i> Categories</button>
-<button class="ctrl-btn" id="next-btn">Next <i class="fas fa-arrow-right"></i></button>
 </div>
 </div>
 
@@ -456,13 +345,13 @@ font-size: 0.95rem;
 </div>
 
 <footer>
-<p>Math Practice Bank | All PDFs remain property of their creators</p>
+<p>Math Practice Forever Bank | All PDFs remain property of their creators</p>
 </footer>
 </div>
 
 <script>
 // File database
-const fileDatabase = {"algebra":["15_Io0ryHHCn1SI_S3x6QRWyyosqzJPtB","1qnkxzUs0j8N0c9_zJaony0jMsVr56Wu9","1s1sb1ZEpmy50-dOzD898_jek3gtvvd40","1A4WIWJQMXteCLmpXiEG_qaTfxhm9Ldop","1sJWN06NGZeZTZtvx1akWwQ8iB2xDWAkV","15_Io0ryHHCn1SI_S3x6QRWyyosqzJPtB","1qnkxzUs0j8N0c9_zJaony0jMsVr56Wu9","1s1sb1ZEpmy50-dOzD898_jek3gtvvd40","1A4WIWJQMXteCLmpXiEG_qaTfxhm9Ldop","1sJWN06NGZeZTZtvx1akWwQ8iB2xDWAkV","15_Io0ryHHCn1SI_S3x6QRWyyosqzJPtB","1qnkxzUs0j8N0c9_zJaony0jMsVr56Wu9","1s1sb1ZEpmy50-dOzD898_jek3gtvvd40","1A4WIWJQMXteCLmpXiEG_qaTfxhm9Ldop","1sJWN06NGZeZTZtvx1akWwQ8iB2xDWAkV","15_Io0ryHHCn1SI_S3x6QRWyyosqzJPtB","1qnkxzUs0j8N0c9_zJaony0jMsVr56Wu9","1s1sb1ZEpmy50-dOzD898_jek3gtvvd40","1A4WIWJQMXteCLmpXiEG_qaTfxhm9Ldop","1sJWN06NGZeZTZtvx1akWwQ8iB2xDWAkV"],"advanced":["1A4WIWJQMXteCLmpXiEG_qaTfxhm9Ldop","1sJWN06NGZeZTZtvx1akWwQ8iB2xDWAkV"],"geometry":["1qnkxzUs0j8N0c9_zJaony0jMsVr56Wu9","1s1sb1ZEpmy50-dOzD898_jek3gtvvd40","1A4WIWJQMXteCLmpXiEG_qaTfxhm9Ldop","1sJWN06NGZeZTZtvx1akWwQ8iB2xDWAkV"],"problem":["15_Io0ryHHCn1SI_S3x6QRWyyosqzJPtB","1qnkxzUs0j8N0c9_zJaony0jMsVr56Wu9","1s1sb1ZEpmy50-dOzD898_jek3gtvvd40","1A4WIWJQMXteCLmpXiEG_qaTfxhm9Ldop","1sJWN06NGZeZTZtvx1akWwQ8iB2xDWAkV"]};
+const fileDatabase = {"algebra":["15_Io0ryHHCn1SI_S3x6QRWyyosqzJPtB","1qnkxzUs0j8N0c9_zJaony0jMsVr56Wu9","1s1sb1ZEpmy50-dOzD898_jek3gtvvd40","1A4WIWJQMXteCLmpXiEG_qaTfxhm9Ldop","1sJWN06NGZeZTZtvx1akWwQ8iB2xDWAkV","15_Io0ryHHCn1SI_S3x6QRWyyosqzJPtB","1qnkxzUs0j8N0c9_zJaony0jMsVr56Wu9","1s1sb1ZEpmy50-dOzD898_jek3gtvvd40","1A4WIWJQMXteCLmpXiEG_qaTfxhm9Ldop","1sJWN06NGZeZTZtvx1akWwQ8iB2xDWAkV","15_Io0ryHHCn1SI_S3x6QRWyyosqzJPtB","1qnkxzUs0j8N0c9_zJaony0jMsVr56Wu9","1s1sb1ZEpmy50-dOzD898_jek3gtvvd40","1A4WIWJQMXteCLmpXiEG_qaTfxhm9Ldop","1sJWN06NGZeZTZtvx1akWwQ8iB2xDWAkV","15_Io0ryHHCn1SI_S3x6QRWyyosqzJPtB","1qnkxzUs0j8N0c9_zJaony0jMsVr56Wu9","1s1sb1ZEpmy50-dOzD898_jek3gtvvd40","1A4WIWJQMXteCLmpXiEG_qaTfxhm9Ldop","1sJWN06NGZeZTZtvx1akWwQ8iB2xDWAkV","15_Io0ryHHCn1SI_S3x6QRWyyosqzJPtB","1qnkxzUs0j8N0c9_zJaony0jMsVr56Wu9","1s1sb1ZEpmy50-dOzD898_jek3gtvvd40","1A4WIWJQMXteCLmpXiEG_qaTfxhm9Ldop","1sJWN06NGZeZTZtvx1akWwQ8iB2xDWAkV","15_Io0ryHHCn1SI_S3x6QRWyyosqzJPtB","1qnkxzUs0j8N0c9_zJaony0jMsVr56Wu9","1s1sb1ZEpmy50-dOzD898_jek3gtvvd40","1A4WIWJQMXteCLmpXiEG_qaTfxhm9Ldop","1sJWN06NGZeZTZtvx1akWwQ8iB2xDWAkV","15_Io0ryHHCn1SI_S3x6QRWyyosqzJPtB","1qnkxzUs0j8N0c9_zJaony0jMsVr56Wu9","1s1sb1ZEpmy50-dOzD898_jek3gtvvd40","1A4WIWJQMXteCLmpXiEG_qaTfxhm9Ldop","1sJWN06NGZeZTZtvx1akWwQ8iB2xDWAkV","15_Io0ryHHCn1SI_S3x6QRWyyosqzJPtB","1qnkxzUs0j8N0c9_zJaony0jMsVr56Wu9","1s1sb1ZEpmy50-dOzD898_jek3gtvvd40","1A4WIWJQMXteCLmpXiEG_qaTfxhm9Ldop","1sJWN06NGZeZTZtvx1akWwQ8iB2xDWAkV"],"advanced":["1A4WIWJQMXteCLmpXiEG_qaTfxhm9Ldop","1sJWN06NGZeZTZtvx1akWwQ8iB2xDWAkV"],"geometry":["1qnkxzUs0j8N0c9_zJaony0jMsVr56Wu9","1s1sb1ZEpmy50-dOzD898_jek3gtvvd40","1A4WIWJQMXteCLmpXiEG_qaTfxhm9Ldop","1sJWN06NGZeZTZtvx1akWwQ8iB2xDWAkV"],"problem":["15_Io0ryHHCn1SI_S3x6QRWyyosqzJPtB","1qnkxzUs0j8N0c9_zJaony0jMsVr56Wu9","1s1sb1ZEpmy50-dOzD898_jek3gtvvd40","1A4WIWJQMXteCLmpXiEG_qaTfxhm9Ldop","1sJWN06NGZeZTZtvx1akWwQ8iB2xDWAkV"]};
 
 // State management
 let currentCategory = '';
@@ -480,8 +369,6 @@ openPdfViewer(category);
 
 // Set up navigation buttons
 document.getElementById('back-btn').addEventListener('click', backToCategories);
-document.getElementById('prev-btn').addEventListener('click', showPrevQuestion);
-document.getElementById('next-btn').addEventListener('click', showNextQuestion);
 }
 
 // Open PDF viewer for a category
@@ -505,6 +392,8 @@ currentIndex = files.length - 1;
 
 // Show PDF viewer
 document.querySelector('.categories-grid').style.display = 'none';
+document.querySelector('.donation-section').style.display = 'none';
+document.querySelector('footer').style.display = 'none';
 document.querySelector('.pdf-viewer-container').style.display = 'flex';
 
 // Load the PDF
@@ -516,7 +405,7 @@ function loadPDF() {
 const files = fileDatabase[currentCategory];
 const fileId = files[currentIndex];
 
-// MODIFIED: Use minimal viewer to remove icons
+// Use minimal viewer to remove icons
 document.getElementById('pdf-viewer').src =
 "https://drive.google.com/file/d/" + fileId + "/preview?rm=minimal";
 
@@ -535,35 +424,12 @@ document.getElementById('progress-text').textContent =
 `Question ${currentIndex + 1} of ${total}`;
 }
 
-// Show previous question
-function showPrevQuestion() {
-if (currentIndex > 0) {
-currentIndex--;
-saveProgress();
-loadPDF();
-}
-}
-
-// Show next question
-function showNextQuestion() {
-const files = fileDatabase[currentCategory];
-if (currentIndex < files.length - 1) {
-currentIndex++;
-saveProgress();
-loadPDF();
-}
-}
-
-// Save progress to localStorage
-function saveProgress() {
-const progressKey = `progress-${currentCategory}`;
-localStorage.setItem(progressKey, currentIndex);
-}
-
 // Back to categories view
 function backToCategories() {
-document.querySelector('.categories-grid').style.display = 'grid';
 document.querySelector('.pdf-viewer-container').style.display = 'none';
+document.querySelector('.categories-grid').style.display = 'grid';
+document.querySelector('.donation-section').style.display = 'block';
+document.querySelector('footer').style.display = 'block';
 }
 
 // Initialize when page loads
