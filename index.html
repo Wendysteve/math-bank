@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>High School Math Fun Bank</title>
+<title>Math Practice Bank</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <style>
 * {
@@ -116,6 +116,22 @@ height: 100%;
 border: none;
 }
 
+/* NEW: Hide Google Drive page counter */
+#pdf-viewer {
+position: relative;
+}
+
+#pdf-viewer::after {
+content: "";
+position: absolute;
+bottom: 0;
+left: 0;
+width: 100%;
+height: 40px; /* Height of Google's page counter */
+background: white; /* Match background color */
+z-index: 10;
+}
+
 /* ARROW CONTROLS */
 .arrow-controls {
 position: fixed;
@@ -126,6 +142,19 @@ display: flex;
 flex-direction: column;
 gap: 15px;
 align-items: center;
+}
+
+/* NEW: Progress counter */
+.progress-counter {
+font-size: 1.2rem;
+font-weight: bold;
+background: rgba(255, 255, 255, 0.9);
+padding: 5px 12px;
+border-radius: 20px;
+box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+color: #2c3e50;
+margin-bottom: -5px;
+z-index: 2100;
 }
 
 .arrow-btn {
@@ -258,45 +287,52 @@ width: 45px;
 height: 45px;
 font-size: 16px;
 }
+
+.progress-counter {
+font-size: 1rem;
+padding: 4px 10px;
+}
 }
 </style>
 </head>
 <body>
 <div class="container">
 <header>
-<h1>High School Math Fun Bank</h1>
-<p>Select a category to begin Select a category to begin Select a category to begin Select a category to begin Select a category to begin Select a category to begin Select a category to begin Select a category to begin </p>
+<h1>Math Practice Bank</h1>
+<p>Select a category to begin</p>
 </header>
 
 <div class="categories-grid">
 <div class="category-card" data-category="algebra">
 <i class="fas fa-calculator"></i>
-<h2>Algebra yes</h2>
-<div class="file-count-badge">7 files</div>
+<h2>Algebra</h2>
+<div class="file-count-badge">5 files</div>
 </div>
 
 <div class="category-card" data-category="advanced">
 <i class="fas fa-chart-line"></i>
 <h2>Advanced Math</h2>
-<div class="file-count-badge">7 files</div>
+<div class="file-count-badge">5 files</div>
 </div>
 
 <div class="category-card" data-category="geometry">
 <i class="fas fa-shapes"></i>
 <h2>Geometry</h2>
-<div class="file-count-badge">2 files</div>
+<div class="file-count-badge">5 files</div>
 </div>
 
 <div class="category-card" data-category="problem">
 <i class="fas fa-lightbulb"></i>
 <h2>Problem Solving</h2>
-<div class="file-count-badge">4 files</div>
+<div class="file-count-badge">5 files</div>
 </div>
 </div>
 
 <div class="pdf-viewer-container">
 <iframe id="pdf-viewer"></iframe>
 <div class="arrow-controls">
+<!-- NEW: Progress counter -->
+<div class="progress-counter" id="progress-counter">1/10</div>
 <button class="arrow-btn up-btn" aria-label="Back to Categories">
 <i class="fas fa-arrow-up"></i>
 </button>
@@ -329,13 +365,13 @@ font-size: 16px;
 </div>
 
 <footer>
-<p>High School Math Fun Bank | All PDFs remain property of their creators</p>
+<p>Math Practice Bank | All PDFs remain property of their creators</p>
 </footer>
 </div>
 
 <script>
 // File database
-const fileDatabase = {"algebra":["1Yar4VUUTV008sm5Pk9zJLbyiULLiEDgM","1t6ZoicWZyam6HKbzbSB3CU9-y7u9tEF1","1t6ZoicWZyam6HKbzbSB3CU9-y7u9tEF1","1tKiKOKm9L_FeOiVElrUOMq2WjKQmppF8","1Yar4VUUTV008sm5Pk9zJLbyiULLiEDgM","1t6ZoicWZyam6HKbzbSB3CU9-y7u9tEF1","1t6ZoicWZyam6HKbzbSB3CU9-y7u9tEF1"],"advanced":["15_Io0ryHHCn1SI_S3x6QRWyyosqzJPtB","1qnkxzUs0j8N0c9_zJaony0jMsVr56Wu9","15_Io0ryHHCn1SI_S3x6QRWyyosqzJPtB","1qnkxzUs0j8N0c9_zJaony0jMsVr56Wu9","1s1sb1ZEpmy50-dOzD898_jek3gtvvd40","1A4WIWJQMXteCLmpXiEG_qaTfxhm9Ldop","1sJWN06NGZeZTZtvx1akWwQ8iB2xDWAkV"],"geometry":["1r83pu2nkyHYa6xG-WCGm4gfciKkFrTAt","1ZwLcuhv1cJkYOZ96ZYJ4s0ynP7UPGuYz"],"problem":["1Yar4VUUTV008sm5Pk9zJLbyiULLiEDgM","1t6ZoicWZyam6HKbzbSB3CU9-y7u9tEF1","1tKiKOKm9L_FeOiVElrUOMq2WjKQmppF8","15_Io0ryHHCn1SI_S3x6QRWyyosqzJPtB"]};
+const fileDatabase = {"algebra":["15_Io0ryHHCn1SI_S3x6QRWyyosqzJPtB","1qnkxzUs0j8N0c9_zJaony0jMsVr56Wu9","1s1sb1ZEpmy50-dOzD898_jek3gtvvd40","1A4WIWJQMXteCLmpXiEG_qaTfxhm9Ldop","1sJWN06NGZeZTZtvx1akWwQ8iB2xDWAkV"],"advanced":["15_Io0ryHHCn1SI_S3x6QRWyyosqzJPtB","1qnkxzUs0j8N0c9_zJaony0jMsVr56Wu9","1s1sb1ZEpmy50-dOzD898_jek3gtvvd40","1A4WIWJQMXteCLmpXiEG_qaTfxhm9Ldop","1sJWN06NGZeZTZtvx1akWwQ8iB2xDWAkV"],"geometry":["15_Io0ryHHCn1SI_S3x6QRWyyosqzJPtB","1qnkxzUs0j8N0c9_zJaony0jMsVr56Wu9","1s1sb1ZEpmy50-dOzD898_jek3gtvvd40","1A4WIWJQMXteCLmpXiEG_qaTfxhm9Ldop","1sJWN06NGZeZTZtvx1akWwQ8iB2xDWAkV"],"problem":["15_Io0ryHHCn1SI_S3x6QRWyyosqzJPtB","1qnkxzUs0j8N0c9_zJaony0jMsVr56Wu9","1s1sb1ZEpmy50-dOzD898_jek3gtvvd40","1A4WIWJQMXteCLmpXiEG_qaTfxhm9Ldop","1sJWN06NGZeZTZtvx1akWwQ8iB2xDWAkV"]};
 
 // State management
 let currentCategory = '';
@@ -397,6 +433,9 @@ document.getElementById('pdf-viewer').src =
 
 // Update arrow visibility
 updateArrowVisibility();
+
+// NEW: Update progress counter
+updateProgressCounter();
 }
 
 // Update arrow visibility based on position
@@ -418,6 +457,13 @@ rightBtn.classList.add('hidden');
 } else {
 rightBtn.classList.remove('hidden');
 }
+}
+
+// NEW: Update progress counter
+function updateProgressCounter() {
+const files = fileDatabase[currentCategory];
+const counter = document.getElementById('progress-counter');
+counter.textContent = `${currentIndex + 1}/${files.length}`;
 }
 
 // Show previous question
