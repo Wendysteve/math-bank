@@ -22,8 +22,8 @@ overflow-x: hidden;
 }
 
 .container {
+width: 100%;
 max-width: 100%;
-margin: 0 auto;
 background: white;
 overflow: hidden;
 min-height: 100vh;
@@ -116,68 +116,47 @@ height: 100%;
 border: none;
 }
 
-.pdf-controls {
-position: absolute;
-bottom: 25%; /* Positioned at quarter height from bottom */
-right: 20px; /* Positioned on the right side */
+/* ARROW CONTROLS */
+.arrow-controls {
+position: fixed;
+bottom: 20px;
+right: 20px;
 z-index: 2000;
+display: flex;
+flex-direction: column;
+gap: 8px;
+align-items: center;
 }
 
-.ctrl-btn {
-padding: 14px 18px;
+.arrow-btn {
+width: 40px;
+height: 40px;
+border-radius: 50%;
 background: rgba(74, 107, 255, 0.85);
 color: white;
 border: none;
-border-radius: 30px;
 cursor: pointer;
-font-weight: 600;
-transition: all 0.3s;
-box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
 display: flex;
 align-items: center;
-gap: 8px;
-font-size: 1rem;
+justify-content: center;
+box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+font-size: 16px;
+transition: all 0.2s;
 backdrop-filter: blur(5px);
-border: 1px solid rgba(255, 255, 255, 0.3);
-min-width: 160px;
-justify-content: center;
 }
 
-.ctrl-btn:active {
-transform: scale(0.95);
+.arrow-btn:active {
 background: #3a5bff;
+transform: scale(0.95);
 }
 
-.swipe-indicator {
-position: absolute;
-bottom: 60px;
-left: 0;
-right: 0;
-text-align: center;
-color: white;
-font-size: 1rem;
-background: rgba(0, 0, 0, 0.5);
-padding: 8px 15px;
-border-radius: 20px;
-z-index: 2000;
-max-width: 300px;
-margin: 0 auto;
-display: flex;
-align-items: center;
-justify-content: center;
-gap: 8px;
-animation: pulse 2s infinite;
-}
-
-@keyframes pulse {
-0% { opacity: 0.7; }
-50% { opacity: 1; }
-100% { opacity: 0.7; }
+.arrow-btn.hidden {
+display: none;
 }
 
 .progress-container {
 position: absolute;
-bottom: 20px;
+bottom: 70px;
 left: 0;
 right: 0;
 display: flex;
@@ -185,7 +164,7 @@ justify-content: center;
 align-items: center;
 gap: 10px;
 padding: 10px;
-z-index: 2000;
+z-index: 1500;
 }
 
 .progress-bar {
@@ -306,13 +285,28 @@ font-size: 0.85rem;
 padding: 4px 10px;
 }
 }
+
+@media (max-width: 768px) {
+.categories-grid {
+grid-template-columns: 1fr;
+}
+
+.arrow-btn {
+width: 36px;
+height: 36px;
+}
+
+.progress-bar {
+width: 60%;
+}
+}
 </style>
 </head>
 <body>
 <div class="container">
 <header>
 <h1>Math Practice Bank for Mobiles</h1>
-<p>Select a category to begin till the end</p>
+<p>Select a category to begin till the endSelect a category to begin till the endSelect a category to begin till the end</p>
 </header>
 
 <div class="categories-grid">
@@ -342,20 +336,23 @@ padding: 4px 10px;
 </div>
 
 <div class="pdf-viewer-container">
-<div class="pdf-controls">
-<button class="ctrl-btn" id="back-btn">
-<i class="fas fa-arrow-left"></i> Back to Categories
-</button>
-</div>
-<div class="swipe-indicator">
-<i class="fas fa-arrows-left-right"></i> Swipe left/right to navigate
-</div>
-<iframe id="pdf-viewer"></iframe>
 <div class="progress-container">
 <div class="progress-bar">
 <div class="progress-fill" id="progress-fill"></div>
 </div>
 <div class="progress-text" id="progress-text">Question 1 of 10</div>
+</div>
+<iframe id="pdf-viewer"></iframe>
+<div class="arrow-controls">
+<button class="arrow-btn up-btn" aria-label="Back to Categories">
+<i class="fas fa-arrow-up"></i>
+</button>
+<button class="arrow-btn right-btn" aria-label="Next Question">
+<i class="fas fa-arrow-right"></i>
+</button>
+<button class="arrow-btn left-btn" aria-label="Previous Question">
+<i class="fas fa-arrow-left"></i>
+</button>
 </div>
 </div>
 
@@ -390,8 +387,6 @@ const fileDatabase = {"algebra":["15_Io0ryHHCn1SI_S3x6QRWyyosqzJPtB","1qnkxzUs0j
 // State management
 let currentCategory = '';
 let currentIndex = 0;
-let touchStartX = 0;
-let touchEndX = 0;
 
 // Initialize the page
 function init() {
@@ -403,37 +398,10 @@ openPdfViewer(category);
 });
 });
 
-// Set up navigation buttons
-document.getElementById('back-btn').addEventListener('click', backToCategories);
-
-// Set up touch events for PDF navigation
-const pdfContainer = document.querySelector('.pdf-viewer-container');
-pdfContainer.addEventListener('touchstart', handleTouchStart, false);
-pdfContainer.addEventListener('touchend', handleTouchEnd, false);
-}
-
-function handleTouchStart(event) {
-touchStartX = event.changedTouches[0].screenX;
-}
-
-function handleTouchEnd(event) {
-touchEndX = event.changedTouches[0].screenX;
-handleSwipe();
-}
-
-function handleSwipe() {
-const swipeThreshold = 50; // Minimum swipe distance
-const swipeDistance = touchEndX - touchStartX;
-
-if (Math.abs(swipeDistance) > swipeThreshold) {
-if (swipeDistance > 0) {
-// Swiped right to left - next page
-showNextQuestion();
-} else {
-// Swiped left to right - previous page
-showPrevQuestion();
-}
-}
+// Set up arrow buttons
+document.querySelector('.up-btn').addEventListener('click', backToCategories);
+document.querySelector('.right-btn').addEventListener('click', showNextQuestion);
+document.querySelector('.left-btn').addEventListener('click', showPrevQuestion);
 }
 
 // Open PDF viewer for a category
@@ -457,9 +425,9 @@ currentIndex = files.length - 1;
 
 // Show PDF viewer
 document.querySelector('.categories-grid').style.display = 'none';
+document.querySelector('.pdf-viewer-container').style.display = 'flex';
 document.querySelector('.donation-section').style.display = 'none';
 document.querySelector('footer').style.display = 'none';
-document.querySelector('.pdf-viewer-container').style.display = 'flex';
 
 // Load the PDF
 loadPDF();
@@ -476,6 +444,9 @@ document.getElementById('pdf-viewer').src =
 
 // Update progress indicator
 updateProgress();
+
+// Update arrow visibility
+updateArrowVisibility();
 }
 
 // Update progress indicator
@@ -487,6 +458,27 @@ const progress = ((currentIndex + 1) / total) * 100;
 document.getElementById('progress-fill').style.width = `${progress}%`;
 document.getElementById('progress-text').textContent =
 `Question ${currentIndex + 1} of ${total}`;
+}
+
+// Update arrow visibility based on position
+function updateArrowVisibility() {
+const files = fileDatabase[currentCategory];
+const leftBtn = document.querySelector('.left-btn');
+const rightBtn = document.querySelector('.right-btn');
+
+// Hide left arrow on first page
+if (currentIndex === 0) {
+leftBtn.classList.add('hidden');
+} else {
+leftBtn.classList.remove('hidden');
+}
+
+// Hide right arrow on last page
+if (currentIndex === files.length - 1) {
+rightBtn.classList.add('hidden');
+} else {
+rightBtn.classList.remove('hidden');
+}
 }
 
 // Show previous question
