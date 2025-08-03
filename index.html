@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Math Practice Bank for Mobiles</title>
+<title>High School Math Fun Bank</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <style>
 * {
@@ -22,8 +22,8 @@ overflow-x: hidden;
 }
 
 .container {
-width: 100%;
 max-width: 100%;
+margin: 0 auto;
 background: white;
 overflow: hidden;
 min-height: 100vh;
@@ -119,18 +119,18 @@ border: none;
 /* ARROW CONTROLS */
 .arrow-controls {
 position: fixed;
-bottom: 20px;
+bottom: 30px;
 right: 20px;
 z-index: 2000;
 display: flex;
 flex-direction: column;
-gap: 8px;
+gap: 15px;
 align-items: center;
 }
 
 .arrow-btn {
-width: 40px;
-height: 40px;
+width: 50px;
+height: 50px;
 border-radius: 50%;
 background: rgba(74, 107, 255, 0.85);
 color: white;
@@ -139,59 +139,21 @@ cursor: pointer;
 display: flex;
 align-items: center;
 justify-content: center;
-box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-font-size: 16px;
-transition: all 0.2s;
+box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+font-size: 18px;
+transition: all 0.3s;
 backdrop-filter: blur(5px);
+border: 1px solid rgba(255, 255, 255, 0.3);
 }
 
 .arrow-btn:active {
-background: #3a5bff;
 transform: scale(0.95);
+background: #3a5bff;
 }
 
 .arrow-btn.hidden {
-display: none;
-}
-
-.progress-container {
-position: absolute;
-bottom: 70px;
-left: 0;
-right: 0;
-display: flex;
-justify-content: center;
-align-items: center;
-gap: 10px;
-padding: 10px;
-z-index: 1500;
-}
-
-.progress-bar {
-width: 70%;
-height: 8px;
-background: rgba(255, 255, 255, 0.5);
-border-radius: 4px;
-overflow: hidden;
-max-width: 300px;
-}
-
-.progress-fill {
-height: 100%;
-background: linear-gradient(to right, #00b09b, #96c93d);
-width: 0%;
-transition: width 0.3s ease;
-}
-
-.progress-text {
-font-weight: 600;
-color: white;
-min-width: 100px;
-text-align: center;
-font-size: 0.9rem;
-background: rgba(0, 0, 0, 0.5);
-padding: 5px 12px;
-border-radius: 20px;
+visibility: hidden;
+opacity: 0;
 }
 
 .donation-section {
@@ -292,12 +254,9 @@ grid-template-columns: 1fr;
 }
 
 .arrow-btn {
-width: 36px;
-height: 36px;
-}
-
-.progress-bar {
-width: 60%;
+width: 45px;
+height: 45px;
+font-size: 16px;
 }
 }
 </style>
@@ -305,43 +264,37 @@ width: 60%;
 <body>
 <div class="container">
 <header>
-<h1>Math Practice Bank for Mobiles</h1>
-<p>Select a category to begin till the endSelect a category to begin till the endSelect a category to begin till the end</p>
+<h1>High School Math Fun Bank</h1>
+<p>Select a category to begin Select a category to begin Select a category to begin Select a category to begin Select a category to begin Select a category to begin Select a category to begin Select a category to begin </p>
 </header>
 
 <div class="categories-grid">
 <div class="category-card" data-category="algebra">
 <i class="fas fa-calculator"></i>
-<h2>Algebra</h2>
-<div class="file-count-badge">5 files</div>
+<h2>Algebra yes</h2>
+<div class="file-count-badge">7 files</div>
 </div>
 
 <div class="category-card" data-category="advanced">
 <i class="fas fa-chart-line"></i>
 <h2>Advanced Math</h2>
-<div class="file-count-badge">5 files</div>
+<div class="file-count-badge">7 files</div>
 </div>
 
 <div class="category-card" data-category="geometry">
 <i class="fas fa-shapes"></i>
 <h2>Geometry</h2>
-<div class="file-count-badge">5 files</div>
+<div class="file-count-badge">2 files</div>
 </div>
 
 <div class="category-card" data-category="problem">
 <i class="fas fa-lightbulb"></i>
 <h2>Problem Solving</h2>
-<div class="file-count-badge">5 files</div>
+<div class="file-count-badge">4 files</div>
 </div>
 </div>
 
 <div class="pdf-viewer-container">
-<div class="progress-container">
-<div class="progress-bar">
-<div class="progress-fill" id="progress-fill"></div>
-</div>
-<div class="progress-text" id="progress-text">Question 1 of 10</div>
-</div>
 <iframe id="pdf-viewer"></iframe>
 <div class="arrow-controls">
 <button class="arrow-btn up-btn" aria-label="Back to Categories">
@@ -363,26 +316,26 @@ width: 60%;
 <i class="fas fa-heart"></i>
 </div>
 <div class="donation-buttons">
-<a href="https://paypal.me/yourusername" target="_blank" class="donate-btn paypal">
+<a href="#" class="donate-btn paypal">
 <i class="fab fa-paypal"></i> PayPal
 </a>
-<a href="https://venmo.com/yourusername" target="_blank" class="donate-btn venmo">
+<a href="#" class="donate-btn venmo">
 <i class="fab fa-vimeo-v"></i> Venmo
 </a>
-<a href="https://buymeacoffee.com/yourusername" target="_blank" class="donate-btn buymeacoffee">
+<a href="#" class="donate-btn buymeacoffee">
 <i class="fas fa-coffee"></i> Buy Me a Coffee
 </a>
 </div>
 </div>
 
 <footer>
-<p>Math Practice Bank for Mobiles | All PDFs remain property of their creators</p>
+<p>High School Math Fun Bank | All PDFs remain property of their creators</p>
 </footer>
 </div>
 
 <script>
 // File database
-const fileDatabase = {"algebra":["15_Io0ryHHCn1SI_S3x6QRWyyosqzJPtB","1qnkxzUs0j8N0c9_zJaony0jMsVr56Wu9","1s1sb1ZEpmy50-dOzD898_jek3gtvvd40","1A4WIWJQMXteCLmpXiEG_qaTfxhm9Ldop","1sJWN06NGZeZTZtvx1akWwQ8iB2xDWAkV"],"advanced":["15_Io0ryHHCn1SI_S3x6QRWyyosqzJPtB","1qnkxzUs0j8N0c9_zJaony0jMsVr56Wu9","1s1sb1ZEpmy50-dOzD898_jek3gtvvd40","1A4WIWJQMXteCLmpXiEG_qaTfxhm9Ldop","1sJWN06NGZeZTZtvx1akWwQ8iB2xDWAkV"],"geometry":["15_Io0ryHHCn1SI_S3x6QRWyyosqzJPtB","1qnkxzUs0j8N0c9_zJaony0jMsVr56Wu9","1s1sb1ZEpmy50-dOzD898_jek3gtvvd40","1A4WIWJQMXteCLmpXiEG_qaTfxhm9Ldop","1sJWN06NGZeZTZtvx1akWwQ8iB2xDWAkV"],"problem":["15_Io0ryHHCn1SI_S3x6QRWyyosqzJPtB","1qnkxzUs0j8N0c9_zJaony0jMsVr56Wu9","1s1sb1ZEpmy50-dOzD898_jek3gtvvd40","1A4WIWJQMXteCLmpXiEG_qaTfxhm9Ldop","1sJWN06NGZeZTZtvx1akWwQ8iB2xDWAkV"]};
+const fileDatabase = {"algebra":["1Yar4VUUTV008sm5Pk9zJLbyiULLiEDgM","1t6ZoicWZyam6HKbzbSB3CU9-y7u9tEF1","1t6ZoicWZyam6HKbzbSB3CU9-y7u9tEF1","1tKiKOKm9L_FeOiVElrUOMq2WjKQmppF8","1Yar4VUUTV008sm5Pk9zJLbyiULLiEDgM","1t6ZoicWZyam6HKbzbSB3CU9-y7u9tEF1","1t6ZoicWZyam6HKbzbSB3CU9-y7u9tEF1"],"advanced":["15_Io0ryHHCn1SI_S3x6QRWyyosqzJPtB","1qnkxzUs0j8N0c9_zJaony0jMsVr56Wu9","15_Io0ryHHCn1SI_S3x6QRWyyosqzJPtB","1qnkxzUs0j8N0c9_zJaony0jMsVr56Wu9","1s1sb1ZEpmy50-dOzD898_jek3gtvvd40","1A4WIWJQMXteCLmpXiEG_qaTfxhm9Ldop","1sJWN06NGZeZTZtvx1akWwQ8iB2xDWAkV"],"geometry":["1r83pu2nkyHYa6xG-WCGm4gfciKkFrTAt","1ZwLcuhv1cJkYOZ96ZYJ4s0ynP7UPGuYz"],"problem":["1Yar4VUUTV008sm5Pk9zJLbyiULLiEDgM","1t6ZoicWZyam6HKbzbSB3CU9-y7u9tEF1","1tKiKOKm9L_FeOiVElrUOMq2WjKQmppF8","15_Io0ryHHCn1SI_S3x6QRWyyosqzJPtB"]};
 
 // State management
 let currentCategory = '';
@@ -442,22 +395,8 @@ const fileId = files[currentIndex];
 document.getElementById('pdf-viewer').src =
 "https://drive.google.com/file/d/" + fileId + "/preview?rm=minimal";
 
-// Update progress indicator
-updateProgress();
-
 // Update arrow visibility
 updateArrowVisibility();
-}
-
-// Update progress indicator
-function updateProgress() {
-const files = fileDatabase[currentCategory];
-const total = files.length;
-const progress = ((currentIndex + 1) / total) * 100;
-
-document.getElementById('progress-fill').style.width = `${progress}%`;
-document.getElementById('progress-text').textContent =
-`Question ${currentIndex + 1} of ${total}`;
 }
 
 // Update arrow visibility based on position
