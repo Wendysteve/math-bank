@@ -1,506 +1,753 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Math Practice Bank</title>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-<style>
-* {
-margin: 0;
-padding: 0;
-box-sizing: border-box;
-font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-touch-action: manipulation;
-}
-
-body {
-background: linear-gradient(135deg, #1a2980, #26d0ce);
-min-height: 100vh;
-color: #333;
-overflow-x: hidden;
-}
-
-.container {
-max-width: 100%;
-margin: 0 auto;
-background: white;
-overflow: hidden;
-min-height: 100vh;
-display: flex;
-flex-direction: column;
-}
-
-header {
-background: linear-gradient(to right, #2c3e50, #1a237e);
-color: white;
-padding: 20px 15px;
-text-align: center;
-position: relative;
-}
-
-header h1 {
-font-size: 1.8rem;
-margin-bottom: 8px;
-}
-
-header p {
-font-size: 1.1rem;
-opacity: 0.9;
-}
-
-.categories-grid {
-display: grid;
-grid-template-columns: repeat(2, 1fr);
-gap: 12px;
-padding: 15px;
-flex: 1;
-}
-
-.category-card {
-background: white;
-border-radius: 12px;
-padding: 20px;
-text-align: center;
-box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-cursor: pointer;
-transition: all 0.3s;
-border: 2px solid transparent;
-display: flex;
-flex-direction: column;
-align-items: center;
-justify-content: center;
-}
-
-.category-card:active {
-transform: scale(0.98);
-background: #f8f9ff;
-}
-
-.category-card i {
-font-size: 2.5rem;
-color: #4a6bff;
-margin-bottom: 12px;
-}
-
-.category-card h2 {
-color: #2c3e50;
-font-size: 1.4rem;
-margin-bottom: 10px;
-}
-
-.file-count-badge {
-background: #e3f2fd;
-padding: 6px 15px;
-border-radius: 20px;
-font-weight: 600;
-display: inline-block;
-font-size: 0.95rem;
-}
-
-.pdf-viewer-container {
-position: fixed;
-top: 0;
-left: 0;
-width: 100%;
-height: 100%;
-background: white;
-z-index: 1000;
-display: none;
-flex-direction: column;
-}
-
-#pdf-viewer {
-width: 100%;
-height: 100%;
-border: none;
-}
-
-/* NEW: Hide Google Drive page counter */
-#pdf-viewer {
-position: relative;
-}
-
-#pdf-viewer::after {
-content: "";
-position: absolute;
-bottom: 0;
-left: 0;
-width: 100%;
-height: 40px; /* Height of Google's page counter */
-background: white; /* Match background color */
-z-index: 10;
-}
-
-/* ARROW CONTROLS */
-.arrow-controls {
-position: fixed;
-bottom: 30px;
-right: 20px;
-z-index: 2000;
-display: flex;
-flex-direction: column;
-gap: 15px;
-align-items: center;
-}
-
-/* NEW: Progress counter */
-.progress-counter {
-font-size: 1.2rem;
-font-weight: bold;
-background: rgba(255, 255, 255, 0.9);
-padding: 5px 12px;
-border-radius: 20px;
-box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
-color: #2c3e50;
-margin-bottom: -5px;
-z-index: 2100;
-}
-
-.arrow-btn {
-width: 50px;
-height: 50px;
-border-radius: 50%;
-background: rgba(74, 107, 255, 0.85);
-color: white;
-border: none;
-cursor: pointer;
-display: flex;
-align-items: center;
-justify-content: center;
-box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-font-size: 18px;
-transition: all 0.3s;
-backdrop-filter: blur(5px);
-border: 1px solid rgba(255, 255, 255, 0.3);
-}
-
-.arrow-btn:active {
-transform: scale(0.95);
-background: #3a5bff;
-}
-
-.arrow-btn.hidden {
-visibility: hidden;
-opacity: 0;
-}
-
-.donation-section {
-padding: 15px;
-background: #f8f9ff;
-border-radius: 15px;
-text-align: center;
-margin: 15px;
-}
-
-.donation-title {
-font-size: 1.2rem;
-color: #2c3e50;
-margin-bottom: 12px;
-display: flex;
-align-items: center;
-justify-content: center;
-gap: 8px;
-}
-
-.donation-buttons {
-display: flex;
-flex-direction: column;
-gap: 10px;
-align-items: center;
-}
-
-.donate-btn {
-display: flex;
-align-items: center;
-gap: 8px;
-padding: 12px 20px;
-border-radius: 8px;
-font-weight: 600;
-text-decoration: none;
-transition: all 0.3s;
-color: white;
-width: 100%;
-max-width: 280px;
-justify-content: center;
-}
-
-.donate-btn:active {
-transform: scale(0.98);
-}
-
-.donate-btn.paypal {
-background: #0070ba;
-}
-
-.donate-btn.venmo {
-background: #008CFF;
-}
-
-.donate-btn.buymeacoffee {
-background: #ffdd00;
-color: #333;
-}
-
-footer {
-text-align: center;
-padding: 15px;
-color: #777;
-font-size: 0.85rem;
-background: #f0f4ff;
-}
-
-/* Landscape optimization */
-@media (orientation: landscape) {
-.categories-grid {
-grid-template-columns: repeat(4, 1fr);
-gap: 8px;
-padding: 10px;
-}
-
-.category-card {
-padding: 15px 10px;
-}
-
-.category-card i {
-font-size: 2rem;
-margin-bottom: 8px;
-}
-
-.category-card h2 {
-font-size: 1.2rem;
-}
-
-.file-count-badge {
-font-size: 0.85rem;
-padding: 4px 10px;
-}
-}
-
-@media (max-width: 768px) {
-.categories-grid {
-grid-template-columns: 1fr;
-}
-
-.arrow-btn {
-width: 45px;
-height: 45px;
-font-size: 16px;
-}
-
-.progress-counter {
-font-size: 1rem;
-padding: 4px 10px;
-}
-}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Math Practice Bank - Master Concepts, Not Just Calculations</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --secondary: #3498db;
+            --accent: #e74c3c;
+            --light: #ecf0f1;
+            --dark: #2c3e50;
+            --success: #27ae60;
+            --warning: #f39c12;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #f9f9f9 0%, #e6e6e6 100%);
+            color: var(--dark);
+            line-height: 1.6;
+            min-height: 100vh;
+            padding-bottom: 2rem;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        header {
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            color: white;
+            padding: 1rem 0;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .logo i {
+            font-size: 2.2rem;
+        }
+        
+        .logo h1 {
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 25px;
+        }
+        
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            padding: 5px 10px;
+            border-radius: 4px;
+        }
+        
+        nav a:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+        
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            justify-content: space-around;
+            width: 2rem;
+            height: 2rem;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            padding: 0;
+        }
+        
+        .hamburger span {
+            width: 2rem;
+            height: 0.25rem;
+            background: white;
+            border-radius: 10px;
+            transition: all 0.3s linear;
+            position: relative;
+            transform-origin: 1px;
+        }
+        
+        .hero {
+            text-align: center;
+            padding: 3rem 1rem;
+            background: white;
+            margin: 2rem auto;
+            border-radius: 12px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+            max-width: 95%;
+        }
+        
+        .hero h2 {
+            font-size: 2.4rem;
+            color: var(--secondary);
+            margin-bottom: 1.5rem;
+        }
+        
+        .hero p {
+            font-size: 1.1rem;
+            max-width: 800px;
+            margin: 0 auto 2rem;
+            color: #555;
+        }
+        
+        .btn {
+            display: inline-block;
+            background: var(--accent);
+            color: white;
+            padding: 12px 28px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 10px rgba(231, 76, 60, 0.3);
+            margin-top: 1rem;
+        }
+        
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 15px rgba(231, 76, 60, 0.4);
+        }
+        
+        .philosophy {
+            background: var(--light);
+            padding: 2.5rem;
+            border-radius: 12px;
+            margin: 2rem 0;
+        }
+        
+        .philosophy h4 {
+            font-size: 1.5rem;
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+        
+        .philosophy-points {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+        
+        .point {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+        }
+        
+        .point i {
+            color: var(--accent);
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .point h5 {
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+            color: var(--primary);
+        }
+        
+        .intro {
+            background: white;
+            padding: 2.5rem;
+            border-radius: 12px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+            margin: 2rem auto;
+            max-width: 95%;
+        }
+        
+        .intro h3 {
+            font-size: 1.8rem;
+            color: var(--secondary);
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+        
+        .intro-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+        }
+        
+        .intro-text {
+            font-size: 1.1rem;
+        }
+        
+        .intro-text p {
+            margin-bottom: 1.5rem;
+        }
+        
+        .intro-image {
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            border-radius: 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            box-shadow: 0 5px 15px rgba(52, 152, 219, 0.3);
+            padding: 1rem;
+            height: 480px; /* Increased by 20% from 400px */
+        }
+        
+        .pdf-viewer {
+            width: 100%;
+            height: 100%;
+            border: none;
+            border-radius: 8px;
+            background: white;
+        }
+        
+        .pdf-controls {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 15px;
+            width: 100%;
+        }
+        
+        .pdf-controls button {
+            background: white;
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .pdf-controls button:hover {
+            background: var(--light);
+            transform: translateY(-2px);
+        }
+        
+        .pdf-controls button i {
+            color: var(--primary);
+            font-size: 1.2rem;
+        }
+        
+        .tests {
+            background: white;
+            padding: 2.5rem;
+            border-radius: 12px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+            margin: 2rem auto;
+            max-width: 95%;
+        }
+        
+        .tests h3 {
+            font-size: 1.8rem;
+            color: var(--secondary);
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+        
+        .test-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 25px;
+        }
+        
+        .test-card {
+            background: var(--light);
+            border-radius: 10px;
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+            border: 1px solid #ddd;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .test-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        .test-card-header {
+            background: var(--primary);
+            color: white;
+            padding: 1.2rem;
+            text-align: center;
+            font-weight: 600;
+            font-size: 1.2rem;
+        }
+        
+        .test-card-body {
+            padding: 1.5rem;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        
+        .test-card-body p {
+            margin-bottom: 1.5rem;
+        }
+        
+        .test-card-footer {
+            padding: 1rem 1.5rem;
+            background: #f9f9f9;
+            text-align: center;
+        }
+        
+        .test-link {
+            display: inline-block;
+            background: var(--secondary);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            width: 100%;
+        }
+        
+        .test-link:hover {
+            background: var(--primary);
+            transform: translateY(-2px);
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 3rem;
+            color: #666;
+            font-size: 0.9rem;
+        }
+        
+        .features {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin: 3rem 0;
+        }
+        
+        .feature {
+            text-align: center;
+            max-width: 250px;
+        }
+        
+        .feature i {
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+        
+        .feature h4 {
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+            color: var(--secondary);
+        }
+        
+        .emphasis {
+            color: var(--accent);
+            font-weight: 600;
+        }
+        
+        .mobile-nav {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--primary);
+            z-index: 999;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 2rem;
+            transition: transform 0.3s ease-in-out;
+        }
+        
+        .mobile-nav.active {
+            display: flex;
+        }
+        
+        .mobile-nav a {
+            color: white;
+            text-decoration: none;
+            font-size: 1.5rem;
+            font-weight: 500;
+            padding: 10px 20px;
+        }
+        
+        .close-nav {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 2rem;
+            cursor: pointer;
+        }
+        
+        .download-link {
+            display: block;
+            text-align: center;
+            margin-top: 15px;
+            color: white;
+            text-decoration: underline;
+        }
+        
+        @media (max-width: 900px) {
+            .intro-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .intro-image {
+                order: -1;
+                height: 400px; /* Adjusted for mobile */
+            }
+            
+            nav ul {
+                display: none;
+            }
+            
+            .hamburger {
+                display: flex;
+            }
+            
+            .hero h2 {
+                font-size: 2rem;
+            }
+            
+            .test-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .features {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+        
+        @media (max-width: 600px) {
+            .logo h1 {
+                font-size: 1.5rem;
+            }
+            
+            .hero h2 {
+                font-size: 1.8rem;
+            }
+            
+            .hero p {
+                font-size: 1rem;
+            }
+            
+            .intro, .tests {
+                padding: 1.5rem;
+            }
+            
+            .intro h3, .tests h3 {
+                font-size: 1.5rem;
+            }
+            
+            .philosophy {
+                padding: 1.5rem;
+            }
+            
+            .philosophy h4 {
+                font-size: 1.3rem;
+            }
+        }
+    </style>
 </head>
 <body>
-<div class="container">
-<header>
-<h1>Math Practice Bank</h1>
-<p>Select a category to begin</p>
-</header>
+    <header>
+        <div class="container header-content">
+            <div class="logo">
+                <i class="fas fa-square-root-alt"></i>
+                <h1>Math Practice Bank</h1>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="#philosophy">Our Philosophy</a></li>
+                    <li><a href="#intro">Our Approach</a></li>
+                    <li><a href="#tests">Test Sets</a></li>
+                </ul>
+            </nav>
+            <button class="hamburger" id="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </header>
 
-<div class="categories-grid">
-<div class="category-card" data-category="algebra">
-<i class="fas fa-calculator"></i>
-<h2>Algebra</h2>
-<div class="file-count-badge">5 files</div>
-</div>
+    <div class="mobile-nav" id="mobileNav">
+        <button class="close-nav" id="closeNav">
+            <i class="fas fa-times"></i>
+        </button>
+        <a href="#philosophy" onclick="closeMobileNav()">Our Philosophy</a>
+        <a href="#intro" onclick="closeMobileNav()">Our Approach</a>
+        <a href="#tests" onclick="closeMobileNav()">Test Sets</a>
+    </div>
 
-<div class="category-card" data-category="advanced">
-<i class="fas fa-chart-line"></i>
-<h2>Advanced Math</h2>
-<div class="file-count-badge">5 files</div>
-</div>
+    <div class="container">
+        <section class="hero">
+            <h2>Master Mathematical Concepts</h2>
+            <p>Develop true mathematical proficiency through conceptual understanding </p>
+        </section>
 
-<div class="category-card" data-category="geometry">
-<i class="fas fa-shapes"></i>
-<h2>Geometry</h2>
-<div class="file-count-badge">5 files</div>
-</div>
+        <section id="philosophy" class="philosophy">
+            <h4>Our Philosophy</h4>
+            <div class="philosophy-points">
+                <div class="point">
+                    <i class="fas fa-calculator"></i>
+                    <h5>Calculator-Light Approach</h5>
+                    <p>We encourage students to minimize calculator use to develop mental math skills and numerical intuition. Our problems are designed to be solved through reasoning rather than computation.</p>
+                </div>
+                <div class="point">
+                    <i class="fas fa-lightbulb"></i>
+                    <h5>Conceptual Mastery</h5>
+                    <p>True mathematical ability comes from understanding why methods work, not just how to execute them. We emphasize conceptual connections between mathematical topics.</p>
+                </div>
+                <div class="point">
+                    <i class="fas fa-puzzle-piece"></i>
+                    <h5>Strategic Problem Solving</h5>
+                    <p>We teach students to recognize problem types, select appropriate strategies, and avoid common pitfalls. This approach builds confidence with unfamiliar problems.</p>
+                </div>
+                <div class="point">
+                    <i class="fas fa-book"></i>
+                    <h5>Theorem & Rule Memorization</h5>
+                    <p>While understanding is crucial, we also recognize the value of memorizing key theorems, formulas, and rules that facilitate efficient problem-solving.</p>
+                </div>
+            </div>
+        </section>
 
-<div class="category-card" data-category="problem">
-<i class="fas fa-lightbulb"></i>
-<h2>Problem Solving</h2>
-<div class="file-count-badge">5 files</div>
-</div>
-</div>
+        <div class="features">
+            <div class="feature">
+                <i class="fas fa-graduation-cap"></i>
+                <h4>Concept-Focused</h4>
+                <p>Designed to strengthen conceptual understanding</p>
+            </div>
+            <div class="feature">
+                <i class="fas fa-ban"></i>
+                <h4>Calculator-Optional</h4>
+                <p>Problems designed for conceptual reasoning</p>
+            </div>
+            <div class="feature">
+                <i class="fas fa-chart-line"></i>
+                <h4>Progress Tracking</h4>
+                <p>Identify and strengthen weak areas</p>
+            </div>
+        </div>
 
-<div class="pdf-viewer-container">
-<iframe id="pdf-viewer"></iframe>
-<div class="arrow-controls">
-<!-- NEW: Progress counter -->
-<div class="progress-counter" id="progress-counter">1/10</div>
-<button class="arrow-btn up-btn" aria-label="Back to Categories">
-<i class="fas fa-arrow-up"></i>
-</button>
-<button class="arrow-btn right-btn" aria-label="Next Question">
-<i class="fas fa-arrow-right"></i>
-</button>
-<button class="arrow-btn left-btn" aria-label="Previous Question">
-<i class="fas fa-arrow-left"></i>
-</button>
-</div>
-</div>
+        <section id="intro" class="intro">
+            <h3>Concepts Beat Calculator Hands Down</h3>
+            <div class="intro-content">
+                <div class="intro-text">
+                    <p>In today's educational landscape, there's an overreliance on calculators that often masks fundamental gaps in mathematical understanding. At Math Practice Bank, we believe true mathematical proficiency comes from <span class="emphasis">mastering concepts</span>, not just manipulating numbers.</p>
+                    
+                    <p>Our approach focuses on developing the <span class="emphasis">problem-solving skills</span> and <span class="emphasis">mathematical reasoning</span> that form the foundation of all quantitative disciplines. We've designed our practice tests to strengthen your conceptual understanding across all major areas of secondary mathematics:</p>
+                    
+                    <ul>
+                        <li><strong>Algebra</strong> - Master linear equations, systems, and algebraic reasoning through conceptual problem-solving. Develop understanding of linear functions, systems of equations, and algebraic reasoning.</li>
+                        <li><strong>Advanced Algebra</strong> - Dive into polynomial, exponential, rational, and radical functions with a focus on conceptual understanding. Explore non-linear functions, exponents, and advanced equation solving.</li>
+                        <li><strong>Geometry</strong> - Understand spatial relationships, geometric properties, and trigonometric applications. Learn about shapes, spatial relationships, and geometric proofs without over-reliance on formulas.</li>
+                        <li><strong>Trigonometry</strong> - Understand trigonometric concepts, relationships, and applications through conceptual problems. Master trigonometric functions, identities, and practical applications.</li>
+                        <li><strong>Problem Solving</strong> - Develop strategic approaches to ratios, proportions, percentages, and multi-step word problems. Strengthen your understanding of proportional relationships and their applications across mathematical domains.</li>
+                        <li><strong>Probability & Statistics</strong> - Build intuition about data interpretation, probability, and statistical reasoning concepts. Develop understanding of data interpretation, probability theory, and statistical reasoning without computational crutches.</li>
+                    </ul>
+                    
+                    <p>Each test is carefully crafted to help you identify conceptual weaknesses and develop the mathematical intuition needed for genuine mastery.</p>
+                </div>
+                <div class="intro-image">
+                    <iframe class="pdf-viewer" src="https://drive.google.com/file/d/1d90jkRShUrTsOz6SRvy0J3MEHNEW7S1t/preview" type="application/pdf">
+                        <p>Your browser does not support PDFs. <a href="https://drive.google.com/file/d/1d90jkRShUrTsOz6SRvy0J3MEHNEW7S1t/view" target="_blank">Download the PDF</a> instead.</p>
+                    </iframe>
+                    <a href="https://drive.google.com/file/d/1d90jkRShUrTsOz6SRvy0J3MEHNEW7S1t/view" target="_blank" class="download-link">Download PDF</a>
+                </div>
+            </div>
+        </section>
 
-<div class="donation-section">
-<div class="donation-title">
-<i class="fas fa-heart"></i>
-<h3>Support This Project</h3>
-<i class="fas fa-heart"></i>
-</div>
-<div class="donation-buttons">
-<a href="#" class="donate-btn paypal">
-<i class="fab fa-paypal"></i> PayPal
-</a>
-<a href="#" class="donate-btn venmo">
-<i class="fab fa-vimeo-v"></i> Venmo
-</a>
-<a href="#" class="donate-btn buymeacoffee">
-<i class="fas fa-coffee"></i> Buy Me a Coffee
-</a>
-</div>
-</div>
+        <section id="tests" class="tests">
+            <h3>Comprehensive Practice Tests</h3>
+            <div class="test-grid">
+                <!-- Test 1 -->
+                <div class="test-card">
+                    <div class="test-card-header">TEST 1</div>
+                    <div class="test-card-body">
+                        <p>Master the building blocks of algebraic thinking with an emphasis on conceptual understanding rather than mechanical solving.</p>
+                    </div>
+                    <div class="test-card-footer">
+                        <a href="tests/test1.html" class="test-link">Start Test</a>
+                    </div>
+                </div>
 
-<footer>
-<p>Math Practice Bank | All PDFs remain property of their creators</p>
-</footer>
-</div>
+                <!-- Test 2 -->
+                <div class="test-card">
+                    <div class="test-card-header">TEST 2</div>
+                    <div class="test-card-body">
+                        <p>Dive deeper into complex algebraic concepts with a focus on understanding the behavior of non-linear functions.</p>
+                    </div>
+                    <div class="test-card-footer">
+                        <a href="tests/test2.html" class="test-link">Start Test</a>
+                    </div>
+                </div>
 
-<script>
-// File database
-const fileDatabase = {"algebra":["15_Io0ryHHCn1SI_S3x6QRWyyosqzJPtB","1qnkxzUs0j8N0c9_zJaony0jMsVr56Wu9","1s1sb1ZEpmy50-dOzD898_jek3gtvvd40","1A4WIWJQMXteCLmpXiEG_qaTfxhm9Ldop","1sJWN06NGZeZTZtvx1akWwQ8iB2xDWAkV"],"advanced":["15_Io0ryHHCn1SI_S3x6QRWyyosqzJPtB","1qnkxzUs0j8N0c9_zJaony0jMsVr56Wu9","1s1sb1ZEpmy50-dOzD898_jek3gtvvd40","1A4WIWJQMXteCLmpXiEG_qaTfxhm9Ldop","1sJWN06NGZeZTZtvx1akWwQ8iB2xDWAkV"],"geometry":["15_Io0ryHHCn1SI_S3x6QRWyyosqzJPtB","1qnkxzUs0j8N0c9_zJaony0jMsVr56Wu9","1s1sb1ZEpmy50-dOzD898_jek3gtvvd40","1A4WIWJQMXteCLmpXiEG_qaTfxhm9Ldop","1sJWN06NGZeZTZtvx1akWwQ8iB2xDWAkV"],"problem":["15_Io0ryHHCn1SI_S3x6QRWyyosqzJPtB","1qnkxzUs0j8N0c9_zJaony0jMsVr56Wu9","1s1sb1ZEpmy50-dOzD898_jek3gtvvd40","1A4WIWJQMXteCLmpXiEG_qaTfxhm9Ldop","1sJWN06NGZeZTZtvx1akWwQ8iB2xDWAkV"]};
+                <!-- Test 3 -->
+                <div class="test-card">
+                    <div class="test-card-header">TEST 3</div>
+                    <div class="test-card-body">
+                        <p>Explore geometric relationships, properties of shapes, and spatial reasoning without over-reliance on formulas.</p>
+                    </div>
+                    <div class="test-card-footer">
+                        <a href="tests/test3.html" class="test-link">Start Test</a>
+                    </div>
+                </div>
 
-// State management
-let currentCategory = '';
-let currentIndex = 0;
+                <!-- Test 4 -->
+                <div class="test-card">
+                    <div class="test-card-header">TEST 4</div>
+                    <div class="test-card-body">
+                        <p>Understand trigonometric concepts, relationships, and applications through conceptual problems.</p>
+                    </div>
+                    <div class="test-card-footer">
+                        <a href="tests/test4.html" class="test-link">Start Test</a>
+                    </div>
+                </div>
 
-// Initialize the page
-function init() {
-// Set up category buttons
-document.querySelectorAll('.category-card').forEach(card => {
-card.addEventListener('click', function() {
-const category = this.getAttribute('data-category');
-openPdfViewer(category);
-});
-});
+                <!-- Test 5 -->
+                <div class="test-card">
+                    <div class="test-card-header">TEST 5</div>
+                    <div class="test-card-body">
+                        <p>Develop intuition about data interpretation, probability, and statistical reasoning without computational crutches.</p>
+                    </div>
+                    <div class="test-card-footer">
+                        <a href="tests/test5.html" class="test-link">Start Test</a>
+                    </div>
+                </div>
 
-// Set up arrow buttons
-document.querySelector('.up-btn').addEventListener('click', backToCategories);
-document.querySelector('.right-btn').addEventListener('click', showNextQuestion);
-document.querySelector('.left-btn').addEventListener('click', showPrevQuestion);
-}
+                <!-- Test 6 -->
+                <div class="test-card">
+                    <div class="test-card-header">TEST 6</div>
+                    <div class="test-card-body">
+                        <p>Strengthen your problem-solving skills with multi-step problems that integrate concepts from multiple mathematical domains.</p>
+                    </div>
+                    <div class="test-card-footer">
+                        <a href="tests/test6.html" class="test-link">Start Test</a>
+                    </div>
+                </div>
+            </div>
+        </section>
 
-// Open PDF viewer for a category
-function openPdfViewer(category) {
-currentCategory = category;
-const files = fileDatabase[category];
+        <footer>
+            <p>Math Practice Bank &copy; Test4College.com 2025. All rights reserved.</p>
+            <p>Designed to build mathematical proficiency through conceptual understanding.</p>
+        </footer>
+    </div>
 
-if (files.length === 0) {
-alert('No files available for this category');
-return;
-}
-
-// Get progress from localStorage
-const progressKey = `progress-${currentCategory}`;
-currentIndex = parseInt(localStorage.getItem(progressKey)) || 0;
-
-// Make sure index is within bounds
-if (currentIndex >= files.length) {
-currentIndex = files.length - 1;
-}
-
-// Show PDF viewer
-document.querySelector('.categories-grid').style.display = 'none';
-document.querySelector('.pdf-viewer-container').style.display = 'flex';
-document.querySelector('.donation-section').style.display = 'none';
-document.querySelector('footer').style.display = 'none';
-
-// Load the PDF
-loadPDF();
-}
-
-// Load the current PDF
-function loadPDF() {
-const files = fileDatabase[currentCategory];
-const fileId = files[currentIndex];
-
-// Use minimal viewer to remove icons
-document.getElementById('pdf-viewer').src =
-"https://drive.google.com/file/d/" + fileId + "/preview?rm=minimal";
-
-// Update arrow visibility
-updateArrowVisibility();
-
-// NEW: Update progress counter
-updateProgressCounter();
-}
-
-// Update arrow visibility based on position
-function updateArrowVisibility() {
-const files = fileDatabase[currentCategory];
-const leftBtn = document.querySelector('.left-btn');
-const rightBtn = document.querySelector('.right-btn');
-
-// Hide left arrow on first page
-if (currentIndex === 0) {
-leftBtn.classList.add('hidden');
-} else {
-leftBtn.classList.remove('hidden');
-}
-
-// Hide right arrow on last page
-if (currentIndex === files.length - 1) {
-rightBtn.classList.add('hidden');
-} else {
-rightBtn.classList.remove('hidden');
-}
-}
-
-// NEW: Update progress counter
-function updateProgressCounter() {
-const files = fileDatabase[currentCategory];
-const counter = document.getElementById('progress-counter');
-counter.textContent = `${currentIndex + 1}/${files.length}`;
-}
-
-// Show previous question
-function showPrevQuestion() {
-if (currentIndex > 0) {
-currentIndex--;
-saveProgress();
-loadPDF();
-}
-}
-
-// Show next question
-function showNextQuestion() {
-const files = fileDatabase[currentCategory];
-if (currentIndex < files.length - 1) {
-currentIndex++;
-saveProgress();
-loadPDF();
-}
-}
-
-// Save progress to localStorage
-function saveProgress() {
-const progressKey = `progress-${currentCategory}`;
-localStorage.setItem(progressKey, currentIndex);
-}
-
-// Back to categories view
-function backToCategories() {
-document.querySelector('.pdf-viewer-container').style.display = 'none';
-document.querySelector('.categories-grid').style.display = 'grid';
-document.querySelector('.donation-section').style.display = 'block';
-document.querySelector('footer').style.display = 'block';
-}
-
-// Initialize when page loads
-window.addEventListener('DOMContentLoaded', init);
-</script>
+    <script>
+        // Mobile navigation functionality
+        const hamburger = document.getElementById('hamburger');
+        const mobileNav = document.getElementById('mobileNav');
+        const closeNav = document.getElementById('closeNav');
+        
+        function toggleMobileNav() {
+            mobileNav.classList.toggle('active');
+            document.body.style.overflow = mobileNav.classList.contains('active') ? 'hidden' : '';
+        }
+        
+        function closeMobileNav() {
+            mobileNav.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+        
+        hamburger.addEventListener('click', toggleMobileNav);
+        closeNav.addEventListener('click', closeMobileNav);
+        
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('nav a, .mobile-nav a').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+                
+                window.scrollTo({
+                    top: targetElement.offsetTop - 80,
+                    behavior: 'smooth'
+                });
+                
+                // Close mobile nav if open
+                closeMobileNav();
+            });
+        });
+        
+        // Add animation to elements on scroll
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.1
+        };
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = 1;
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+        
+        // Apply animation to cards
+        document.querySelectorAll('.test-card, .point').forEach(card => {
+            card.style.opacity = 0;
+            card.style.transform = 'translateY(20px)';
+            card.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+            observer.observe(card);
+        });
+    </script>
 </body>
 </html>
