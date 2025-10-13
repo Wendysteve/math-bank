@@ -243,7 +243,46 @@ font-size: 0.95rem;
 background: #f0f4ff;
 }
 </style>
-</head>
+
+                <style>
+                    .home-nav-btn {
+                        background: #28a745 !important;
+                        color: white !important;
+                        border: none !important;
+                        border-radius: 8px !important;
+                        padding: 10px 20px !important;
+                        cursor: pointer !important;
+                        font-weight: 600 !important;
+                        transition: all 0.3s !important;
+                        text-decoration: none !important;
+                        display: inline-flex !important;
+                        align-items: center !important;
+                        gap: 8px !important;
+                        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif !important;
+                        box-shadow: 0 4px 8px rgba(0,0,0,0.2) !important;
+                        min-width: 180px !important;
+                    }
+                    .home-nav-btn:hover {
+                        transform: translateY(-2px) !important;
+                        box-shadow: 0 6px 12px rgba(0,0,0,0.25) !important;
+                        filter: brightness(1.1) !important;
+                    }
+                </style>
+            
+                <script>
+                    function goHome() {
+                        // Set authentication flag and navigate to home with authentication parameter
+                        sessionStorage.setItem('mathBankAuthenticated', 'true');
+                        var homePath = '../index.html';
+                        // Add authentication parameter to maintain login state
+                        if (homePath.includes('?')) {
+                            window.location.href = homePath + '&authenticated=true';
+                        } else {
+                            window.location.href = homePath + '?authenticated=true';
+                        }
+                    }
+                </script>
+            </head>
 <body>
 <div class="container">
 <header>
@@ -290,7 +329,11 @@ For inquiries, contact: info@test4college.com. For user support, contact: help@t
 <button class="ctrl-btn" id="prev-btn"><i class="fas fa-arrow-left"></i> Previous Set</button>
 <button class="ctrl-btn" id="back-btn"><i class="fas fa-home"></i> Back to Categories</button>
 <button class="ctrl-btn" id="next-btn">Next Set<i class="fas fa-arrow-right"></i></button>
-</div>
+
+                <button class="home-nav-btn" onclick="goHome()">
+                    <i class="fas fa-home"></i> Return to Home
+                </button>
+            </div>
 </div>
 
 <div class="donation-section">
