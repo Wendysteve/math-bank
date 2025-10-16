@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Test Page Home Button Generator</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+        }
+        
+        header {
+            background: linear-gradient(to right, #2c3e50, #4a6bff);
+            color: white;
+            padding: 25px;
+            text-align: center;
+        }
+        
+        header h1 {
+            font-size: 2.2rem;
+            margin-bottom: 10px;
+        }
+        
+        header p {
+            opacity: 0.9;
+            font-size: 1.1rem;
+        }
+        
+        .config-panel {
+            background: #f8f9fa;
+            padding: 25px;
+            border-bottom: 2px solid #e9ecef;
+        }
+        
+        .config-group {
+            margin-bottom: 20px;
+        }
+        
+        .config-label {
+            display: block;
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 8px;
+            font-size: 1.1rem;
+        }
+        
+        .config-input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #ced4da;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+        
+        .config-input:focus {
+            border-color: #4a6bff;
+            outline: none;
+        }
+        
+        .input-hint {
+            color: #6c757d;
+            font-size: 0.9rem;
+            margin-top: 5px;
+        }
+        
+        .code-area {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            padding: 25px;
+        }
+        
+        .code-section {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .section-label {
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .section-label i {
+            color: #4a6bff;
+        }
+        
+        textarea {
+            flex: 1;
+            padding: 15px;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            line-height: 1.5;
+            resize: vertical;
+            transition: border-color 0.3s;
+        }
+        
+        textarea:focus {
+            border-color: #4a6bff;
+            outline: none;
+        }
+        
+        .actions {
+            padding: 0 25px 25px;
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+        }
+        
+        .btn {
+            padding: 12px 30px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .btn-primary {
+            background: #4a6bff;
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background: #3a5bff;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(74, 107, 255, 0.4);
+        }
+        
+        .btn-secondary {
+            background: #6c757d;
+            color: white;
+        }
+        
+        .btn-secondary:hover {
+            background: #5a6268;
+            transform: translateY(-2px);
+        }
+        
+        .btn-success {
+            background: #28a745;
+            color: white;
+        }
+        
+        .btn-success:hover {
+            background: #218838;
+            transform: translateY(-2px);
+        }
+        
+        .output-info {
+            background: #e7f3ff;
+            border: 1px solid #b3d9ff;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 0 25px 15px;
+            color: #0066cc;
+        }
+        
+        .instructions {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 0 25px 25px;
+        }
+        
+        .instructions h3 {
+            color: #856404;
+            margin-bottom: 10px;
+        }
+        
+        .instructions ol {
+            margin-left: 20px;
+        }
+        
+        .instructions li {
+            margin-bottom: 8px;
+            color: #856404;
+        }
+        
+        footer {
+            text-align: center;
+            padding: 20px;
+            color: #6c757d;
+            border-top: 1px solid #e9ecef;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Test Page Home Button Generator</h1>
+            <p>Automatically add home buttons to your test pages</p>
+        </header>
+        
+        <div class="instructions">
+            <h3>How to Use:</h3>
+            <ol>
+                <li>Enter your home page path (where the "Home" button should navigate to)</li>
+                <li>Paste your test page HTML code in the left textarea</li>
+                <li>Click "Add Home Buttons" to generate the modified version</li>
+                <li>Copy the output code and save it as your test HTML file</li>
+            </ol>
+        </div>
+        
+        <div class="config-panel">
+            <div class="config-group">
+                <label class="config-label">Home Page Path:</label>
+                <input type="text" id="home-path" class="config-input" 
+                       placeholder="../index.html or https://www.yoursite.com/index.html"
+                       value="../index.html">
+                <div class="input-hint">
+                    Examples: "../index.html", "https://www.test4college.com/index.html", "https://www.test4college.com/adam/index.html"
+                </div>
+            </div>
+        </div>
+        
+        <div class="code-area">
+            <div class="code-section">
+                <label class="section-label">
+                    <i class="fas fa-code"></i> Paste Your Test HTML Code:
+                </label>
+                <textarea id="input-code" placeholder="Paste your test page HTML code here..."></textarea>
+            </div>
+            
+            <div class="code-section">
+                <label class="section-label">
+                    <i class="fas fa-download"></i> Modified HTML with Home Buttons:
+                </label>
+                <textarea id="output-code" placeholder="Modified code will appear here..." readonly></textarea>
+            </div>
+        </div>
+        
+        <div class="output-info">
+            <strong>Home buttons will be added in one location:</strong>
+            <ul style="margin-top: 8px; margin-left: 20px;">
+                <li>PDF controls (with other navigation buttons)</li>
+            </ul>
+        </div>
+        
+        <div class="actions">
+            <button class="btn btn-primary" id="generate-btn">
+                <i class="fas fa-magic"></i> Add Home Buttons
+            </button>
+            <button class="btn btn-success" id="copy-btn">
+                <i class="fas fa-copy"></i> Copy Output
+            </button>
+            <button class="btn btn-secondary" id="clear-btn">
+                <i class="fas fa-broom"></i> Clear All
+            </button>
+        </div>
+        
+        <footer>
+            <p>Home Button Generator &copy; 2025 | Simply paste your test HTML and get back the version with home navigation</p>
+        </footer>
+    </div>
+
+    <script>
+        document.getElementById('generate-btn').addEventListener('click', function() {
+            const homePath = document.getElementById('home-path').value.trim();
+            const inputCode = document.getElementById('input-code').value.trim();
+            
+            if (!homePath) {
+                alert('Please enter a home page path');
+                return;
+            }
+            
+            if (!inputCode) {
+                alert('Please paste your test HTML code');
+                return;
+            }
+            
+            try {
+                const modifiedCode = addHomeButtons(inputCode, homePath);
+                document.getElementById('output-code').value = modifiedCode;
+            } catch (error) {
+                alert('Error processing HTML: ' + error.message);
+                console.error(error);
+            }
+        });
+        
+        document.getElementById('copy-btn').addEventListener('click', function() {
+            const outputCode = document.getElementById('output-code');
+            outputCode.select();
+            outputCode.setSelectionRange(0, 99999); // For mobile devices
+            
+            try {
+                const successful = document.execCommand('copy');
+                if (successful) {
+                    alert('Output code copied to clipboard!');
+                } else {
+                    alert('Failed to copy code. Please copy manually.');
+                }
+            } catch (err) {
+                alert('Failed to copy code. Please copy manually.');
+            }
+        });
+        
+        document.getElementById('clear-btn').addEventListener('click', function() {
+            document.getElementById('input-code').value = '';
+            document.getElementById('output-code').value = '';
+            document.getElementById('home-path').value = '../index.html';
+        });
+        
+        function addHomeButtons(htmlCode, homePath) {
+            // Add CSS for home buttons
+            const homeButtonCSS = `
+                <style>
+                    .home-nav-btn {
+                        background: #28a745 !important;
+                        color: white !important;
+                        border: none !important;
+                        border-radius: 8px !important;
+                        padding: 10px 20px !important;
+                        cursor: pointer !important;
+                        font-weight: 600 !important;
+                        transition: all 0.3s !important;
+                        text-decoration: none !important;
+                        display: inline-flex !important;
+                        align-items: center !important;
+                        gap: 8px !important;
+                        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif !important;
+                        box-shadow: 0 4px 8px rgba(0,0,0,0.2) !important;
+                        min-width: 180px !important;
+                    }
+                    .home-nav-btn:hover {
+                        transform: translateY(-2px) !important;
+                        box-shadow: 0 6px 12px rgba(0,0,0,0.25) !important;
+                        filter: brightness(1.1) !important;
+                    }
+                </style>
+            `;
+            
+            // REMOVED: Header home button HTML (no longer adding header button)
+            
+            // Create PDF controls home button HTML
+            const controlsHomeButton = `
+                <button class="home-nav-btn" onclick="goHome()">
+                    <i class="fas fa-home"></i> Return to Home
+                </button>
+            `;
+            
+            // Add home navigation function
+            const homeNavigationScript = `
+                <script>
+                    function goHome() {
+                        // Set authentication flag and navigate to home with authentication parameter
+                        sessionStorage.setItem('mathBankAuthenticated', 'true');
+                        var homePath = '${homePath}';
+                        // Add authentication parameter to maintain login state
+                        if (homePath.includes('?')) {
+                            window.location.href = homePath + '&authenticated=true';
+                        } else {
+                            window.location.href = homePath + '?authenticated=true';
+                        }
+                    }
+                <\/script>
+            `;
+            
+            let modifiedHtml = htmlCode;
+            
+            // Add CSS and script to head if not already present
+            if (!modifiedHtml.includes('.home-nav-btn')) {
+                if (modifiedHtml.includes('</head>')) {
+                    modifiedHtml = modifiedHtml.replace('</head>', homeButtonCSS + homeNavigationScript + '</head>');
+                } else if (modifiedHtml.includes('<head>')) {
+                    modifiedHtml = modifiedHtml.replace('<head>', '<head>' + homeButtonCSS + homeNavigationScript);
+                } else {
+                    // If no head tag, add it at the beginning
+                    modifiedHtml = homeButtonCSS + homeNavigationScript + modifiedHtml;
+                }
+            }
+            
+            // REMOVED: Code that adds header home button
+            
+            // Add PDF controls home button
+            if (modifiedHtml.includes('</div><div class="pdf-controls">')) {
+                // Find the pdf-controls div and add button inside it
+                const pdfControlsRegex = /<div class="pdf-controls">([\s\S]*?)<\/div>/;
+                const match = modifiedHtml.match(pdfControlsRegex);
+                if (match) {
+                    const currentControls = match[1];
+                    const newControls = currentControls + controlsHomeButton;
+                    modifiedHtml = modifiedHtml.replace(pdfControlsRegex, `<div class="pdf-controls">${newControls}</div>`);
+                }
+            } else if (modifiedHtml.includes('class="pdf-controls"')) {
+                // Alternative pattern for pdf-controls
+                const pdfControlsRegex = /<div class="pdf-controls"([^>]*)>([\s\S]*?)<\/div>/;
+                const match = modifiedHtml.match(pdfControlsRegex);
+                if (match) {
+                    const currentControls = match[2];
+                    const newControls = currentControls + controlsHomeButton;
+                    modifiedHtml = modifiedHtml.replace(pdfControlsRegex, `<div class="pdf-controls"${match[1]}>${newControls}</div>`);
+                }
+            } else {
+                // If we can't find pdf-controls, try to add before closing body tag
+                if (modifiedHtml.includes('</body>')) {
+                    modifiedHtml = modifiedHtml.replace('</body>', 
+                        `<div style="text-align: center; margin: 20px;">
+                            ${controlsHomeButton}
+                        </div>
+                        </body>`);
+                }
+            }
+            
+            return modifiedHtml;
+        }
+        
+        // Load Font Awesome for icons in the tool
+        const faLink = document.createElement('link');
+        faLink.rel = 'stylesheet';
+        faLink.href = 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css';
+        document.head.appendChild(faLink);
+    </script>
+</body>
+</html>
