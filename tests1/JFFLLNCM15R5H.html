@@ -101,7 +101,7 @@ border: none;
 display: flex;
 justify-content: center;
 gap: 15px;
-padding: 10px; /* Reduced padding */
+padding: 8px; /* Reduced padding */
 position: absolute;
 bottom: 10px;
 left: 50%;
@@ -114,7 +114,7 @@ border: 1px solid #e0e7ff;
 }
 
 .ctrl-btn {
-padding: 10px 20px; /* More slender buttons */
+padding: 8px 16px; /* Reduced height */
 background: #4a6bff;
 color: white;
 border: none;
@@ -122,7 +122,7 @@ border-radius: 8px;
 cursor: pointer;
 font-weight: 600;
 transition: all 0.3s;
-min-width: 180px;
+min-width: 160px;
 box-shadow: 0 4px 8px rgba(0,0,0,0.2);
 }
 
@@ -130,6 +130,14 @@ box-shadow: 0 4px 8px rgba(0,0,0,0.2);
 background: #3a5bff;
 transform: translateY(-2px);
 box-shadow: 0 6px 12px rgba(0,0,0,0.25);
+}
+
+.home-btn {
+background: #4CAF50; /* Green color for return home */
+}
+
+.home-btn:hover {
+background: #45a049;
 }
 
 .progress-container {
@@ -243,46 +251,7 @@ font-size: 0.95rem;
 background: #f0f4ff;
 }
 </style>
-
-                <style>
-                    .home-nav-btn {
-                        background: #28a745 !important;
-                        color: white !important;
-                        border: none !important;
-                        border-radius: 8px !important;
-                        padding: 10px 20px !important;
-                        cursor: pointer !important;
-                        font-weight: 600 !important;
-                        transition: all 0.3s !important;
-                        text-decoration: none !important;
-                        display: inline-flex !important;
-                        align-items: center !important;
-                        gap: 8px !important;
-                        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif !important;
-                        box-shadow: 0 4px 8px rgba(0,0,0,0.2) !important;
-                        min-width: 180px !important;
-                    }
-                    .home-nav-btn:hover {
-                        transform: translateY(-2px) !important;
-                        box-shadow: 0 6px 12px rgba(0,0,0,0.25) !important;
-                        filter: brightness(1.1) !important;
-                    }
-                </style>
-            
-                <script>
-                    function goHome() {
-                        // Set authentication flag and navigate to home with authentication parameter
-                        sessionStorage.setItem('mathBankAuthenticated', 'true');
-                        var homePath = 'https://www.test4college.com/srzlil15o5ier.html';
-                        // Add authentication parameter to maintain login state
-                        if (homePath.includes('?')) {
-                            window.location.href = homePath + '&authenticated=true';
-                        } else {
-                            window.location.href = homePath + '?authenticated=true';
-                        }
-                    }
-                </script>
-            </head>
+</head>
 <body>
 <div class="container">
 <header>
@@ -327,13 +296,10 @@ For inquiries, contact: info@test4college.com. For user support, contact: help@t
 <iframe id="pdf-viewer"></iframe>
 <div class="pdf-controls">
 <button class="ctrl-btn" id="prev-btn"><i class="fas fa-arrow-left"></i> Previous Set</button>
-<button class="ctrl-btn" id="back-btn"><i class="fas fa-home"></i> Back to Categories</button>
-<button class="ctrl-btn" id="next-btn">Next Set<i class="fas fa-arrow-right"></i></button>
-
-                <button class="home-nav-btn" onclick="goHome()">
-                    <i class="fas fa-home"></i> Return to Home
-                </button>
-            </div>
+<button class="ctrl-btn" id="back-btn"><i class="fas fa-th-large"></i> Back to Categories</button>
+<button class="ctrl-btn" id="next-btn">Next Set <i class="fas fa-arrow-right"></i></button>
+<button class="ctrl-btn home-btn" id="home-btn"><i class="fas fa-home"></i> Return Home</button>
+</div>
 </div>
 
 <div class="donation-section">
@@ -343,13 +309,13 @@ For inquiries, contact: info@test4college.com. For user support, contact: help@t
 <i class="fas fa-heart"></i>
 </div>
 <div class="donation-buttons">
-<a href="https://paypal.me/yourusername" target="_blank" class="donate-btn paypal">
+<a href="https://paypal.me/test4college" target="_blank" class="donate-btn paypal">
 <i class="fab fa-paypal"></i> PayPal
 </a>
-<a href="https://venmo.com/yourusername" target="_blank" class="donate-btn venmo">
+<a href="https://venmo.com/test4college" target="_blank" class="donate-btn venmo">
 <i class="fab fa-vimeo-v"></i> Venmo
 </a>
-<a href="https://buymeacoffee.com/yourusername" target="_blank" class="donate-btn buymeacoffee">
+<a href="https://buymeacoffee.com/test4college" target="_blank" class="donate-btn buymeacoffee">
 <i class="fas fa-coffee"></i> Buy Me a Coffee
 </a>
 </div>
@@ -363,6 +329,9 @@ For inquiries, contact: info@test4college.com. For user support, contact: help@t
 <script>
 // File database
 const fileDatabase = {"algebra":["1NMioAUDU3BST191fS4_2nIGT8gGqslIT"],"advanced":["171tNdfJG3UccAgm7ljz0uC71BWuE0mX_"],"geometry":["1bQho_TjzEHNBGwf-mznVh0mTnsMxLqcK"],"problem":["1hhrMd1t5a0AJ9jxyvnHi94miiD4XC_R_"]};
+
+// Return home URL
+const returnHomeUrl = "https://www.test4college.com/srzlil15o5ier.html";
 
 // State management
 let currentCategory = '';
@@ -382,6 +351,9 @@ openPdfViewer(category);
 document.getElementById('back-btn').addEventListener('click', backToCategories);
 document.getElementById('prev-btn').addEventListener('click', showPrevQuestion);
 document.getElementById('next-btn').addEventListener('click', showNextQuestion);
+document.getElementById('home-btn').addEventListener('click', function() {
+window.location.href = returnHomeUrl;
+});
 }
 
 // Open PDF viewer for a category
