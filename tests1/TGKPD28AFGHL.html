@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>High School Math Bank</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+* {
+margin: 0;
+padding: 0;
+box-sizing: border-box;
+font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+background: linear-gradient(135deg, #1a2980, #26d0ce);
+min-height: 100vh;
+padding: 20px;
+color: #333;
+}
+
+.container {
+max-width: 1200px;
+margin: 0 auto;
+background: white;
+border-radius: 20px;
+box-shadow: 0 15px 50px rgba(0, 0, 0, 0.2);
+overflow: hidden;
+}
+
+header {
+background: linear-gradient(to right, #2c3e50, #1a237e);
+color: white;
+padding: 25px 20px;
+text-align: center;
+}
+
+.categories-grid {
+display: grid;
+grid-template-columns: repeat(2, 1fr);
+gap: 20px;
+padding: 30px;
+}
+
+.category-card {
+background: white;
+border-radius: 15px;
+padding: 30px 20px;
+text-align: center;
+box-shadow: 0 7px 20px rgba(0, 0, 0, 0.1);
+cursor: pointer;
+transition: all 0.3s;
+border: 2px solid transparent;
+}
+
+.category-card:hover {
+transform: translateY(-5px);
+border-color: #4a6bff;
+box-shadow: 0 12px 25px rgba(0, 0, 0, 0.15);
+}
+
+.category-card i {
+font-size: 3.5rem;
+color: #4a6bff;
+margin-bottom: 20px;
+}
+
+.category-card h2 {
+color: #2c3e50;
+font-size: 1.6rem;
+margin-bottom: 15px;
+}
+
+.file-count-badge {
+background: #e3f2fd;
+padding: 8px 20px;
+border-radius: 20px;
+font-weight: 600;
+display: inline-block;
+}
+
+.pdf-viewer-container {
+margin: 20px;
+border: 1px solid #e0e0e0;
+border-radius: 10px;
+overflow: hidden;
+box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+height: 90vh; /* Optimized for PC screens */
+display: flex;
+flex-direction: column;
+position: relative;
+}
+
+#pdf-viewer {
+width: 100%;
+height: 100%;
+border: none;
+}
+
+.pdf-controls {
+display: flex;
+justify-content: center;
+gap: 15px;
+padding: 8px; /* Reduced padding */
+position: absolute;
+bottom: 10px;
+left: 50%;
+transform: translateX(-50%);
+z-index: 100;
+background: rgba(255, 255, 255, 0.9);
+border-radius: 12px;
+box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+border: 1px solid #e0e7ff;
+}
+
+.ctrl-btn {
+padding: 8px 16px; /* Reduced height */
+background: #4a6bff;
+color: white;
+border: none;
+border-radius: 8px;
+cursor: pointer;
+font-weight: 600;
+transition: all 0.3s;
+min-width: 160px;
+box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+.ctrl-btn:hover {
+background: #3a5bff;
+transform: translateY(-2px);
+box-shadow: 0 6px 12px rgba(0,0,0,0.25);
+}
+
+.home-btn {
+background: #4CAF50; /* Green color for return home */
+}
+
+.home-btn:hover {
+background: #45a049;
+}
+
+.progress-container {
+display: flex;
+justify-content: center;
+align-items: center;
+gap: 15px;
+padding: 10px;
+background: #f0f4ff;
+border-bottom: 1px solid #e0e7ff;
+position: relative;
+z-index: 10;
+}
+
+.progress-bar {
+flex: 1;
+height: 12px;
+background: #e0e7ff;
+border-radius: 6px;
+overflow: hidden;
+max-width: 400px;
+}
+
+.progress-fill {
+height: 100%;
+background: linear-gradient(to right, #00b09b, #96c93d);
+width: 0%;
+transition: width 0.3s ease;
+}
+
+.progress-text {
+font-weight: 600;
+color: #4a6bff;
+min-width: 120px;
+text-align: center;
+}
+
+.donation-section {
+padding: 20px;
+background: #f8f9ff;
+border-radius: 15px;
+text-align: center;
+margin: 20px;
+}
+
+.donation-title {
+font-size: 1.3rem;
+color: #2c3e50;
+margin-bottom: 15px;
+display: flex;
+align-items: center;
+justify-content: center;
+gap: 10px;
+}
+
+.donation-buttons {
+display: flex;
+justify-content: center;
+gap: 15px;
+flex-wrap: wrap;
+}
+
+.donate-btn {
+display: flex;
+align-items: center;
+gap: 8px;
+padding: 12px 20px;
+border-radius: 8px;
+font-weight: 600;
+text-decoration: none;
+transition: all 0.3s;
+color: white;
+min-width: 160px;
+}
+
+.donate-btn:hover {
+transform: translateY(-3px);
+box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.donate-btn.paypal {
+background: #0070ba;
+}
+
+.donate-btn.paypal:hover {
+background: #005da6;
+}
+
+.donate-btn.venmo {
+background: #008CFF;
+}
+
+.donate-btn.venmo:hover {
+background: #0077d6;
+}
+
+.donate-btn.buymeacoffee {
+background: #ffdd00;
+color: #333;
+}
+
+.donate-btn.buymeacoffee:hover {
+background: #e6c700;
+}
+
+footer {
+text-align: center;
+padding: 20px;
+color: #777;
+font-size: 0.95rem;
+background: #f0f4ff;
+}
+</style>
+</head>
+<body>
+<div class="container">
+<header>
+<h1>High School Math Bank</h1>
+<p>Copyright © 2025 test4college.com. All rights reserved.
+For inquiries, contact: info@test4college.com. For user support, contact: help@test4college.com.  (Please reference your Question ID). This work is provided for personal use only. Any form of reproduction or distribution is prohibited without prior written permission.</p>
+</header>
+
+<div class="categories-grid">
+<div class="category-card" data-category="algebra">
+<i class="fas fa-calculator"></i>
+<h2>Algebra</h2>
+<div class="file-count-badge">1 file(s)</div>
+</div>
+
+<div class="category-card" data-category="advanced">
+<i class="fas fa-chart-line"></i>
+<h2>Advanced Algebra</h2>
+<div class="file-count-badge">1 file(s)</div>
+</div>
+
+<div class="category-card" data-category="geometry">
+<i class="fas fa-shapes"></i>
+<h2>Problem-Solving</h2>
+<div class="file-count-badge">1 file(s)</div>
+</div>
+
+<div class="category-card" data-category="problem">
+<i class="fas fa-lightbulb"></i>
+<h2>Geometry & Trigonometry</h2>
+<div class="file-count-badge">1 file(s)</div>
+</div>
+</div>
+
+<div class="pdf-viewer-container">
+<div class="progress-container">
+<div class="progress-bar">
+<div class="progress-fill" id="progress-fill"></div>
+</div>
+<div class="progress-text" id="progress-text">Practice Progress Status</div>
+</div>
+<iframe id="pdf-viewer"></iframe>
+<div class="pdf-controls">
+<button class="ctrl-btn" id="prev-btn"><i class="fas fa-arrow-left"></i> Previous Set</button>
+<button class="ctrl-btn" id="back-btn"><i class="fas fa-th-large"></i> Back to Categories</button>
+<button class="ctrl-btn" id="next-btn">Next Set <i class="fas fa-arrow-right"></i></button>
+<button class="ctrl-btn home-btn" id="home-btn"><i class="fas fa-home"></i> Return Home</button>
+</div>
+</div>
+
+<div class="donation-section">
+<div class="donation-title">
+<i class="fas fa-heart"></i>
+<h3>Support This Project</h3>
+<i class="fas fa-heart"></i>
+</div>
+<div class="donation-buttons">
+<a href="https://paypal.me/test4college" target="_blank" class="donate-btn paypal">
+<i class="fab fa-paypal"></i> PayPal
+</a>
+<a href="https://venmo.com/test4college" target="_blank" class="donate-btn venmo">
+<i class="fab fa-vimeo-v"></i> Venmo
+</a>
+<a href="https://buymeacoffee.com/test4college" target="_blank" class="donate-btn buymeacoffee">
+<i class="fas fa-coffee"></i> Buy Me a Coffee
+</a>
+</div>
+</div>
+
+<footer>
+<p>High School Math Bank | All PDFs remain property of their creators</p>
+</footer>
+</div>
+
+<script>
+// File database
+const fileDatabase = {"algebra":["1aiCtdT9jI0WCfSd7OeSrOeW3qBt7Jryq"],"advanced":["1tC-7r5WTE4RpUCxSMYLI49FRNjss2fR8"],"geometry":["179jq2elAK0gt83r3KhryULVD-xVvvH7o"],"problem":["1YxxiEsz7AI5aIe3-nJM4Aoa3IyxyCGcm"]};
+
+// Return home URL
+const returnHomeUrl = "https://www.test4college.com/opqk28sczchl.html";
+
+// State management
+let currentCategory = '';
+let currentIndex = 0;
+
+// Initialize the page
+function init() {
+// Set up category buttons
+document.querySelectorAll('.category-card').forEach(card => {
+card.addEventListener('click', function() {
+const category = this.getAttribute('data-category');
+openPdfViewer(category);
+});
+});
+
+// Set up navigation buttons
+document.getElementById('back-btn').addEventListener('click', backToCategories);
+document.getElementById('prev-btn').addEventListener('click', showPrevQuestion);
+document.getElementById('next-btn').addEventListener('click', showNextQuestion);
+document.getElementById('home-btn').addEventListener('click', function() {
+window.location.href = returnHomeUrl;
+});
+}
+
+// Open PDF viewer for a category
+function openPdfViewer(category) {
+currentCategory = category;
+const files = fileDatabase[category];
+
+if (files.length === 0) {
+alert('No files available for this category');
+return;
+}
+
+// Get progress from localStorage
+const progressKey = `progress-${currentCategory}`;
+currentIndex = parseInt(localStorage.getItem(progressKey)) || 0;
+
+// Make sure index is within bounds
+if (currentIndex >= files.length) {
+currentIndex = files.length - 1;
+}
+
+// Show PDF viewer
+document.querySelector('.categories-grid').style.display = 'none';
+document.querySelector('.pdf-viewer-container').style.display = 'flex';
+
+// Load the PDF
+loadPDF();
+}
+
+// Load the current PDF
+function loadPDF() {
+const files = fileDatabase[currentCategory];
+const fileId = files[currentIndex];
+
+// MODIFIED: Use minimal viewer to remove icons
+document.getElementById('pdf-viewer').src =
+"https://drive.google.com/file/d/" + fileId + "/preview?rm=minimal";
+
+// Update progress indicator
+updateProgress();
+}
+
+// Update progress indicator
+function updateProgress() {
+const files = fileDatabase[currentCategory];
+const total = files.length;
+const progress = ((currentIndex + 1) / total) * 100;
+
+document.getElementById('progress-fill').style.width = `${progress}%`;
+document.getElementById('progress-text').textContent =
+`Set ${currentIndex + 1} of ${total}`;
+}
+
+// Show previous question
+function showPrevQuestion() {
+if (currentIndex > 0) {
+currentIndex--;
+saveProgress();
+loadPDF();
+}
+}
+
+// Show next question
+function showNextQuestion() {
+const files = fileDatabase[currentCategory];
+if (currentIndex < files.length - 1) {
+currentIndex++;
+saveProgress();
+loadPDF();
+}
+}
+
+// Save progress to localStorage
+function saveProgress() {
+const progressKey = `progress-${currentCategory}`;
+localStorage.setItem(progressKey, currentIndex);
+}
+
+// Back to categories view
+function backToCategories() {
+document.querySelector('.categories-grid').style.display = 'grid';
+document.querySelector('.pdf-viewer-container').style.display = 'none';
+}
+
+// Initialize when page loads
+window.addEventListener('DOMContentLoaded', init);
+</script>
+</body>
+</html>
