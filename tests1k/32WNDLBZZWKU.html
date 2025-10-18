@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>High School Math Bank - Answer Keys</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+* {
+margin: 0;
+padding: 0;
+box-sizing: border-box;
+font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+background: linear-gradient(135deg, #1a2980, #26d0ce);
+min-height: 100vh;
+padding: 20px;
+color: #333;
+}
+
+.container {
+max-width: 1200px;
+margin: 0 auto;
+background: white;
+border-radius: 20px;
+box-shadow: 0 15px 50px rgba(0, 0, 0, 0.2);
+overflow: hidden;
+}
+
+header {
+background: linear-gradient(to right, #2c3e50, #1a237e);
+color: white;
+padding: 25px 20px;
+text-align: center;
+}
+
+.pdf-viewer-container {
+margin: 20px;
+border: 1px solid #e0e0e0;
+border-radius: 10px;
+overflow: hidden;
+box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+height: 90vh;
+display: flex;
+flex-direction: column;
+position: relative;
+}
+
+#pdf-viewer {
+width: 100%;
+height: 100%;
+border: none;
+}
+
+.pdf-controls {
+display: flex;
+justify-content: center;
+gap: 15px;
+padding: 10px;
+position: absolute;
+bottom: 10px;
+left: 50%;
+transform: translateX(-50%);
+z-index: 100;
+background: rgba(255, 255, 255, 0.9);
+border-radius: 12px;
+box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+border: 1px solid #e0e7ff;
+}
+
+.ctrl-btn {
+padding: 10px 20px;
+background: #4a6bff;
+color: white;
+border: none;
+border-radius: 8px;
+cursor: pointer;
+font-weight: 600;
+transition: all 0.3s;
+min-width: 180px;
+box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+.ctrl-btn:hover {
+background: #3a5bff;
+transform: translateY(-2px);
+box-shadow: 0 6px 12px rgba(0,0,0,0.25);
+}
+
+.progress-container {
+display: flex;
+justify-content: center;
+align-items: center;
+gap: 15px;
+padding: 10px;
+background: #f0f4ff;
+border-bottom: 1px solid #e0e7ff;
+position: relative;
+z-index: 10;
+}
+
+.progress-bar {
+flex: 1;
+height: 12px;
+background: #e0e7ff;
+border-radius: 6px;
+overflow: hidden;
+max-width: 400px;
+}
+
+.progress-fill {
+height: 100%;
+background: linear-gradient(to right, #00b09b, #96c93d);
+width: 0%;
+transition: width 0.3s ease;
+}
+
+.progress-text {
+font-weight: 600;
+color: #4a6bff;
+min-width: 120px;
+text-align: center;
+}
+
+.donation-section {
+padding: 20px;
+background: #f8f9ff;
+border-radius: 15px;
+text-align: center;
+margin: 20px;
+}
+
+.donation-title {
+font-size: 1.3rem;
+color: #2c3e50;
+margin-bottom: 15px;
+display: flex;
+align-items: center;
+justify-content: center;
+gap: 10px;
+}
+
+.donation-buttons {
+display: flex;
+justify-content: center;
+gap: 15px;
+flex-wrap: wrap;
+}
+
+.donate-btn {
+display: flex;
+align-items: center;
+gap: 8px;
+padding: 12px 20px;
+border-radius: 8px;
+font-weight: 600;
+text-decoration: none;
+transition: all 0.3s;
+color: white;
+min-width: 160px;
+}
+
+.donate-btn:hover {
+transform: translateY(-3px);
+box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.donate-btn.paypal {
+background: #0070ba;
+}
+
+.donate-btn.paypal:hover {
+background: #005da6;
+}
+
+.donate-btn.venmo {
+background: #008CFF;
+}
+
+.donate-btn.venmo:hover {
+background: #0077d6;
+}
+
+.donate-btn.buymeacoffee {
+background: #ffdd00;
+color: #333;
+}
+
+.donate-btn.buymeacoffee:hover {
+background: #e6c700;
+}
+
+footer {
+text-align: center;
+padding: 20px;
+color: #777;
+font-size: 0.95rem;
+background: #f0f4ff;
+}
+
+.home-nav-btn {
+background: #28a745 !important;
+color: white !important;
+border: none !important;
+border-radius: 8px !important;
+padding: 10px 20px !important;
+cursor: pointer !important;
+font-weight: 600 !important;
+transition: all 0.3s !important;
+text-decoration: none !important;
+display: inline-flex !important;
+align-items: center !important;
+gap: 8px !important;
+font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif !important;
+box-shadow: 0 4px 8px rgba(0,0,0,0.2) !important;
+min-width: 180px !important;
+}
+
+.home-nav-btn:hover {
+transform: translateY(-2px) !important;
+box-shadow: 0 6px 12px rgba(0,0,0,0.25) !important;
+filter: brightness(1.1) !important;
+}
+</style>
+</head>
+<body>
+<div class="container">
+<header>
+<h1>High School Math Bank - Answer Keys</h1>
+<p>Copyright © 2025 test4college.com. All rights reserved. For inquiries, contact: info@test4college.com. For user support, contact: help@test4college.com. (Please reference your Question ID). This work is provided for personal use only. Any form of reproduction or distribution is prohibited without prior written permission.</p>
+</header>
+
+<div class="pdf-viewer-container">
+<div class="progress-container">
+<div class="progress-bar">
+<div class="progress-fill" id="progress-fill"></div>
+</div>
+<div class="progress-text" id="progress-text">Key Progress Status</div>
+</div>
+<iframe id="pdf-viewer"></iframe>
+<div class="pdf-controls">
+<button class="ctrl-btn" id="prev-btn"><i class="fas fa-arrow-left"></i> Previous Key</button>
+<button class="ctrl-btn" id="next-btn">Next Key <i class="fas fa-arrow-right"></i></button>
+<button class="home-nav-btn" onclick="goHome()">
+<i class="fas fa-home"></i> Return to Home
+</button>
+</div>
+</div>
+
+<div class="donation-section">
+<div class="donation-title">
+<i class="fas fa-heart"></i>
+<h3>Support This Project</h3>
+<i class="fas fa-heart"></i>
+</div>
+<div class="donation-buttons">
+<a href="https://paypal.me/yourusername" target="_blank" class="donate-btn paypal">
+<i class="fab fa-paypal"></i> PayPal
+</a>
+<a href="https://venmo.com/yourusername" target="_blank" class="donate-btn venmo">
+<i class="fab fa-vimeo-v"></i> Venmo
+</a>
+<a href="https://buymeacoffee.com/yourusername" target="_blank" class="donate-btn buymeacoffee">
+<i class="fas fa-coffee"></i> Buy Me a Coffee
+</a>
+</div>
+</div>
+
+<footer>
+<p>High School Math Bank - Answer Keys | All PDFs remain property of their creators</p>
+</footer>
+</div>
+
+<script>
+// File database - Only keys category remains
+const fileDatabase = {"keys":["10TdjbTAWvd8xVZsZO_Q7GR-SV5b6tyEn"]};
+
+// State management
+let currentCategory = 'keys';
+let currentIndex = 0;
+
+// Initialize the page
+function init() {
+// Set up navigation buttons
+document.getElementById('prev-btn').addEventListener('click', showPrevQuestion);
+document.getElementById('next-btn').addEventListener('click', showNextQuestion);
+
+// Load the PDF automatically when page loads
+loadPDF();
+}
+
+function goHome() {
+sessionStorage.setItem('mathBankAuthenticated', 'true');
+window.location.href = 'https://www.test4college.com/xqm32kyzewney.html?authenticated=true';
+}
+
+// Load the current PDF
+function loadPDF() {
+const files = fileDatabase[currentCategory];
+const fileId = files[currentIndex];
+
+// Get progress from localStorage
+const progressKey = `progress-${currentCategory}`;
+currentIndex = parseInt(localStorage.getItem(progressKey)) || 0;
+
+// Make sure index is within bounds
+if (currentIndex >= files.length) {
+currentIndex = files.length - 1;
+}
+
+// MODIFIED: Use minimal viewer to remove icons
+document.getElementById('pdf-viewer').src =
+"https://drive.google.com/file/d/" + fileId + "/preview?rm=minimal";
+
+// Update progress indicator
+updateProgress();
+}
+
+// Update progress indicator
+function updateProgress() {
+const files = fileDatabase[currentCategory];
+const total = files.length;
+const progress = ((currentIndex + 1) / total) * 100;
+
+document.getElementById('progress-fill').style.width = `${progress}%`;
+document.getElementById('progress-text').textContent =
+`Key ${currentIndex + 1} of ${total}`;
+}
+
+// Show previous question
+function showPrevQuestion() {
+if (currentIndex > 0) {
+currentIndex--;
+saveProgress();
+loadPDF();
+}
+}
+
+// Show next question
+function showNextQuestion() {
+const files = fileDatabase[currentCategory];
+if (currentIndex < files.length - 1) {
+currentIndex++;
+saveProgress();
+loadPDF();
+}
+}
+
+// Save progress to localStorage
+function saveProgress() {
+const progressKey = `progress-${currentCategory}`;
+localStorage.setItem(progressKey, currentIndex);
+}
+
+// Initialize when page loads
+window.addEventListener('DOMContentLoaded', init);
+</script>
+</body>
+</html>
