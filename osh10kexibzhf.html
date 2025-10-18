@@ -1,0 +1,734 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>High School Math Bank - Master Concepts, Not Just Calculations</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis/css2?family=Inter:wght@400;500;600;700&display=swap">
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --secondary: #3498db;
+            --accent: #e74c3c;
+            --light: #ecf0f1;
+            --dark: #2c3e50;
+            --success: #27ae60;
+            --warning: #f39c12;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #f9f9f9 0%, #e6e6e6 100%);
+            color: var(--dark);
+            line-height: 1.6;
+            min-height: 100vh;
+            padding-bottom: 2rem;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        header {
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            color: white;
+            padding: 1rem 0;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .logo i {
+            font-size: 2.2rem;
+        }
+        
+        .logo h1 {
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 25px;
+        }
+        
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            padding: 5px 10px;
+            border-radius: 4px;
+        }
+        
+        nav a:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+        
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            justify-content: space-around;
+            width: 2rem;
+            height: 2rem;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            padding: 0;
+        }
+        
+        .hamburger span {
+            width: 2rem;
+            height: 0.25rem;
+            background: white;
+            border-radius: 10px;
+            transition: all 0.3s linear;
+            position: relative;
+            transform-origin: 1px;
+        }
+        
+        .hero {
+            text-align: center;
+            padding: 3rem 1rem;
+            background: white;
+            margin: 2rem auto;
+            border-radius: 12px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+            max-width: 95%;
+        }
+        
+        .hero h2 {
+            font-size: 2.4rem;
+            color: var(--secondary);
+            margin-bottom: 1.5rem;
+        }
+        
+        .hero p {
+            font-size: 1.1rem;
+            max-width: 800px;
+            margin: 0 auto 2rem;
+            color: #555;
+        }
+        
+        .btn {
+            display: inline-block;
+            background: var(--accent);
+            color: white;
+            padding: 12px 28px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 10px rgba(231, 76, 60, 0.3);
+            margin-top: 1rem;
+        }
+        
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 15px rgba(231, 76, 60, 0.4);
+        }
+        
+        .philosophy {
+            background: var(--light);
+            padding: 2.5rem;
+            border-radius: 12px;
+            margin: 2rem 0;
+        }
+        
+        .philosophy h4 {
+            font-size: 1.5rem;
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+        
+        .philosophy-points {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+        
+        .point {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+        }
+        
+        .point i {
+            color: var(--accent);
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .point h5 {
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+            color: var(--primary);
+        }
+        
+        .intro {
+            background: white;
+            padding: 2.5rem;
+            border-radius: 12px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+            margin: 2rem auto;
+            max-width: 95%;
+        }
+        
+        .intro h3 {
+            font-size: 1.8rem;
+            color: var(--secondary);
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+        
+        .intro-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+        }
+        
+        .intro-text {
+            font-size: 1.1rem;
+        }
+        
+        .intro-text p {
+            margin-bottom: 1.5rem;
+        }
+        
+        .intro-image {
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            border-radius: 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            box-shadow: 0 5px 15px rgba(52, 152, 219, 0.3);
+            padding: 1rem;
+            height: 480px;
+        }
+        
+        .pdf-viewer {
+            width: 100%;
+            height: 100%;
+            border: none;
+            border-radius: 8px;
+            background: white;
+        }
+        
+        .pdf-controls {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 15px;
+            width: 100%;
+        }
+        
+        .pdf-controls button {
+            background: white;
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .pdf-controls button:hover {
+            background: var(--light);
+            transform: translateY(-2px);
+        }
+        
+        .pdf-controls button i {
+            color: var(--primary);
+            font-size: 1.2rem;
+        }
+        
+        .tests {
+            background: white;
+            padding: 2.5rem;
+            border-radius: 12px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+            margin: 2rem auto;
+            max-width: 95%;
+        }
+        
+        .tests h3 {
+            font-size: 1.8rem;
+            color: var(--secondary);
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+        
+        .test-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 25px;
+        }
+        
+        .test-card {
+            background: var(--light);
+            border-radius: 10px;
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+            border: 1px solid #ddd;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .test-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        .test-card-header {
+            background: var(--primary);
+            color: white;
+            padding: 1.2rem;
+            text-align: center;
+            font-weight: 600;
+            font-size: 1.2rem;
+        }
+        
+        .test-card-body {
+            padding: 1.5rem;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        
+        .test-card-body p {
+            margin-bottom: 1.5rem;
+        }
+        
+        .test-card-footer {
+            padding: 1rem 1.5rem;
+            background: #f9f9f9;
+            text-align: center;
+        }
+        
+        .test-link {
+            display: inline-block;
+            background: var(--secondary);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            width: 100%;
+        }
+        
+        .test-link:hover {
+            background: var(--primary);
+            transform: translateY(-2px);
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 3rem;
+            color: #666;
+            font-size: 0.9rem;
+        }
+        
+        .features {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin: 3rem 0;
+        }
+        
+        .feature {
+            text-align: center;
+            max-width: 250px;
+        }
+        
+        .feature i {
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+        
+        .feature h4 {
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+            color: var(--secondary);
+        }
+        
+        .emphasis {
+            color: var(--accent);
+            font-weight: 600;
+        }
+        
+        .mobile-nav {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--primary);
+            z-index: 999;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 2rem;
+            transition: transform 0.3s ease-in-out;
+        }
+        
+        .mobile-nav.active {
+            display: flex;
+        }
+        
+        .mobile-nav a {
+            color: white;
+            text-decoration: none;
+            font-size: 1.5rem;
+            font-weight: 500;
+            padding: 10px 20px;
+        }
+        
+        .close-nav {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 2rem;
+            cursor: pointer;
+        }
+        
+        .download-link {
+            display: block;
+            text-align: center;
+            margin-top: 15px;
+            color: white;
+            text-decoration: underline;
+        }
+        
+        @media (max-width: 900px) {
+            .intro-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .intro-image {
+                order: -1;
+                height: 400px;
+            }
+            
+            nav ul {
+                display: none;
+            }
+            
+            .hamburger {
+                display: flex;
+            }
+            
+            .hero h2 {
+                font-size: 2rem;
+            }
+            
+            .test-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .features {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+        
+        @media (max-width: 600px) {
+            .logo h1 {
+                font-size: 1.5rem;
+            }
+            
+            .hero h2 {
+                font-size: 1.8rem;
+            }
+            
+            .hero p {
+                font-size: 1rem;
+            }
+            
+            .intro, .tests {
+                padding: 1.5rem;
+            }
+            
+            .intro h3, .tests h3 {
+                font-size: 1.5rem;
+            }
+            
+            .philosophy {
+                padding: 1.5rem;
+            }
+            
+            .philosophy h4 {
+                font-size: 1.3rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container header-content">
+            <!-- REMOVED: Home button from header -->
+            
+            <div class="logo">
+                <i class="fas fa-square-root-alt"></i>
+                <h1>High School Math Bank</h1>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="#philosophy">Our Philosophy</a></li>
+                    <li><a href="#intro">Our Approach</a></li>
+                    <li><a href="#tests">Test Sets</a></li>
+                </ul>
+            </nav>
+            <button class="hamburger" id="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </header>
+
+    <div class="mobile-nav" id="mobileNav">
+        <button class="close-nav" id="closeNav">
+            <i class="fas fa-times"></i>
+        </button>
+        <a href="#philosophy" onclick="closeMobileNav()">Our Philosophy</a>
+        <a href="#intro" onclick="closeMobileNav()">Our Approach</a>
+        <a href="#tests" onclick="closeMobileNav()">Test Sets</a>
+    </div>
+
+    <div class="container">
+        <section class="hero">
+            <h2>Master Mathematical Concepts</h2>
+            <p>Develop true mathematical proficiency through conceptual understanding </p>
+        </section>
+
+        <section id="philosophy" class="philosophy">
+            <h4>Our Philosophy</h4>
+            <div class="philosophy-points">
+                <div class="point">
+                    <i class="fas fa-calculator"></i>
+                    <h5>Calculator-Light Approach</h5>
+                    <p>We encourage students to minimize calculator use to develop mental math skills and numerical intuition. Our problems are designed to be solved through reasoning rather than computation.</p>
+                </div>
+                <div class="point">
+                    <i class="fas fa-lightbulb"></i>
+                    <h5>Conceptual Mastery</h5>
+                    <p>True mathematical ability comes from understanding why methods work, not just how to execute them. We emphasize conceptual connections between mathematical topics.</p>
+                </div>
+                <div class="point">
+                    <i class="fas fa-puzzle-piece"></i>
+                    <h5>Strategic Problem Solving</h5>
+                    <p>We teach students to recognize problem types, select appropriate strategies, and avoid common pitfalls. This approach builds confidence with unfamiliar problems.</p>
+                </div>
+                <div class="point">
+                    <i class="fas fa-book"></i>
+                    <h5>Theorem & Rule Memorization</h5>
+                    <p>While understanding is crucial, we also recognize the value of memorizing key theorems, formulas, and rules that facilitate efficient problem-solving.</p>
+                </div>
+            </div>
+        </section>
+
+        <div class="features">
+            <div class="feature">
+                <i class="fas fa-graduation-cap"></i>
+                <h4>Concept-Focused</h4>
+                <p>Designed to strengthen conceptual understanding</p>
+            </div>
+            <div class="feature">
+                <i class="fas fa-ban"></i>
+                <h4>Calculator-Optional</h4>
+                <p>Problems designed for conceptual reasoning</p>
+            </div>
+            <div class="feature">
+                <i class="fas fa-chart-line"></i>
+                <h4>Progress Tracking</h4>
+                <p>Identify and strengthen weak areas</p>
+            </div>
+        </div>
+
+        <section id="intro" class="intro">
+            <h3>Concepts Beat Calculator Hands Down</h3>
+            <div class="intro-content">
+                <div class="intro-text">
+                    <p>In today's educational landscape, there's an overreliance on calculators that often masks fundamental gaps in mathematical understanding. At High School Math Bank, we believe true mathematical proficiency comes from <span class="emphasis">mastering concepts</span>, not just manipulating numbers.</p>
+                    
+                    <p>Our approach focuses on developing the <span class="emphasis">problem-solving skills</span> and <span class="emphasis">mathematical reasoning</span> that form the foundation of all quantitative disciplines. We've designed our practice tests to strengthen your conceptual understanding across all major areas of secondary mathematics:</p>
+                    
+                    <ul>
+                        <li><strong>Algebra</strong> - Master linear equations, systems, and algebraic reasoning through conceptual problem-solving. Develop understanding of linear functions, systems of equations, and algebraic reasoning.</li>
+                        <li><strong>Advanced Algebra</strong> - Dive into polynomial, exponential, rational, and radical functions with a focus on conceptual understanding. Explore non-linear functions, exponents, and advanced equation solving.</li>
+                        <li><strong>Geometry</strong> - Understand spatial relationships, geometric properties, and trigonometric applications. Learn about shapes, spatial relationships, and geometric proofs without over-reliance on formulas.</li>
+                        <li><strong>Trigonometry</strong> - Understand trigonometric concepts, relationships, and applications through conceptual problems. Master trigonometric functions, identities, and practical applications.</li>
+                        <li><strong>Problem Solving</strong> - Develop strategic approaches to ratios, proportions, percentages, and multi-step word problems. Strengthen your understanding of proportional relationships and their applications across mathematical domains.</li>
+                        <li><strong>Probability & Statistics</strong> - Build intuition about data interpretation, probability, and statistical reasoning concepts. Develop understanding of data interpretation, probability theory, and statistical reasoning without computational crutches.</li>
+                    </ul>
+                    
+                    <p>Each test is carefully crafted to help you identify conceptual weaknesses and develop the mathematical intuition needed for genuine mastery.</p>
+                </div>
+                <div class="intro-image">
+                    <iframe class="pdf-viewer" src="https://drive.google.com/file/d/1d90jkRShUrTsOz6SRvy0J3MEHNEW7S1t/preview" type="application/pdf">
+                        <p>Your browser does not support PDFs. <a href="https://drive.google.com/file/d/1d90jkRShUrTsOz6SRvy0J3MEHNEW7S1t/view" target="_blank">Download the PDF</a> instead.</p>
+                    </iframe>
+                    <a href="https://drive.google.com/file/d/1d90jkRShUrTsOz6SRvy0J3MEHNEW7S1t/view" target="_blank" class="download-link">Download PDF</a>
+                </div>
+            </div>
+        </section>
+
+        <section id="tests" class="tests">
+            <h3>Comprehensive Practice Tests</h3>
+            
+                    
+                    
+                </div>
+
+                <!-- Test 2 -->
+                
+
+                <!-- Test 3 -->
+                
+
+                <!-- Test 4 -->
+                
+
+                <!-- Test 5 -->
+                
+
+                <!-- Test 6 -->
+                
+            </div>
+        <div class="test-grid">
+<!-- Test 1 -->
+<div class="test-card">
+    <div class="test-card-header">TEST 1</div>
+    <div class="test-card-body">
+        <p>Master the building blocks of algebraic thinking with an emphasis on conceptual understanding rather than mechanical solving.</p>
+    </div>
+    <div class="test-card-footer">
+        <a href="https://www.test4college.com/tests1/RBCUFT10YD10U.html" class="test-link">Start Test</a>
+    </div>
+</div>
+
+<!-- Test 2 -->
+<div class="test-card">
+    <div class="test-card-header">Key</div>
+    <div class="test-card-body">
+        <p>Dive deeper into complex algebraic concepts with a focus on understanding the behavior of non-linear functions.</p>
+    </div>
+    <div class="test-card-footer">
+        <a href="https://www.test4college.com/tests1k/10ECUVNXTNLI.html" class="test-link">Get the Key</a>
+    </div>
+</div>
+
+</div>
+</section>
+
+        <footer>
+            <p>High School Math Bank &copy; Test4College.com 2025. All rights reserved.</p>
+            <p>Designed to build mathematical proficiency through conceptual understanding.</p>
+        </footer>
+    </div>
+
+    <script>
+        // REMOVED: goHome function (no longer needed in index template)
+
+        // Mobile navigation functionality
+        const hamburger = document.getElementById('hamburger');
+        const mobileNav = document.getElementById('mobileNav');
+        const closeNav = document.getElementById('closeNav');
+        
+        function toggleMobileNav() {
+            mobileNav.classList.toggle('active');
+            document.body.style.overflow = mobileNav.classList.contains('active') ? 'hidden' : '';
+        }
+        
+        function closeMobileNav() {
+            mobileNav.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+        
+        hamburger.addEventListener('click', toggleMobileNav);
+        closeNav.addEventListener('click', closeMobileNav);
+        
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('nav a, .mobile-nav a').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+                
+                window.scrollTo({
+                    top: targetElement.offsetTop - 80,
+                    behavior: 'smooth'
+                });
+                
+                // Close mobile nav if open
+                closeMobileNav();
+            });
+        });
+        
+        // Add animation to elements on scroll
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.1
+        };
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = 1;
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+        
+        // Apply animation to cards
+        document.querySelectorAll('.test-card, .point').forEach(card => {
+            card.style.opacity = 0;
+            card.style.transform = 'translateY(20px)';
+            card.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+            observer.observe(card);
+        });
+    </script>
+</body>
+</html>
