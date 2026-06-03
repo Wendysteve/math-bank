@@ -456,6 +456,11 @@
       border-top: 2px solid #d0d7de;
       opacity: 0.7;
     }
+    
+    .intro-image i {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+    }
 
     @media (max-width: 900px) {
       .intro-content {
@@ -550,10 +555,22 @@
   </div>
 
   <div class="container">
-    <!-- Introduction hero -->
-    <section class="hero">
-      <h2>Master High School Math & English</h2>
-      <p>Build conceptual understanding in mathematics and sharpen critical reading, writing, and analysis skills for English. One platform, two essential subjects.</p>
+    <!-- INTRODUCTION HERO WITH TWO-COLUMN LAYOUT (same as Math part) -->
+    <section class="intro" style="margin-top: 2rem;">
+      <h3>Master High School Math & English</h3>
+      <div class="intro-content">
+        <div class="intro-text">
+          <p>In a world rapidly shaped by artificial intelligence, the ability to <span class="emphasis">command both mathematics and English</span> has never been more critical. Industry leaders and researchers consistently emphasize that AI doesn't diminish the need for human intellect—it amplifies the demand for people who can <span class="emphasis">describe precisely what they need</span>, frame problems with clarity, and interpret complex outputs.</p>
+          <p>Satya Nadella, CEO of Microsoft, noted that <span class="emphasis">"the future of work is not about coding, it's about communicating with AI."</span> Similarly, experts from OpenAI and DeepMind argue that prompt engineering—the art of articulating instructions—requires deep language comprehension and logical structuring. A strong background in English gives you the vocabulary and rhetorical skill to instruct, persuade, and refine AI-generated content. Meanwhile, mathematics builds the analytical framework to validate data, understand algorithms, and think in systems.</p>
+          <p>Commentators on platforms like LinkedIn and EdSurge have observed that <span class="emphasis">"English majors who understand logic, and math majors who can write, will define the next decade."</span> This fusion of skills enables you not just to use AI tools, but to direct them with precision. At High School Test Bank, we help you develop both sides of this essential equation: the conceptual reasoning of mathematics, and the expressive, analytical power of English.</p>
+        </div>
+        <div class="intro-image">
+          <iframe class="pdf-viewer" src="https://drive.google.com/file/d/1f84jAPJbLRjj61T0F02dXdXHuPTS75fZ/preview" type="application/pdf">
+            <p>Your browser does not support PDFs. <a href="https://drive.google.com/file/d/1f84jAPJbLRjj61T0F02dXdXHuPTS75fZ/view" target="_blank">Download the PDF</a> instead.</p>
+          </iframe>
+          <a href="https://drive.google.com/file/d/1f84jAPJbLRjj61T0F02dXdXHuPTS75fZ/view" target="_blank" class="download-link">Download PDF</a>
+        </div>
+      </div>
     </section>
 
     <!-- MATH BANK SECTION -->
@@ -721,7 +738,7 @@
     </div>
 
     <section class="intro">
-      <h3>Read Critically, Write Powerfully</h3>
+      <h3>Read Critically, Express Powerfully</h3>
       <div class="intro-content">
         <div class="intro-text">
           <p>Strong English skills are built on <span class="emphasis">analytical reading</span> and <span class="emphasis">clear expression</span>. Our English bank moves beyond memorization, focusing on the reasoning behind every answer.</p>
@@ -741,9 +758,10 @@
           <p>Every English test integrates these categories so you practice holistically, just like on real exams.</p>
         </div>
         <div class="intro-image" style="background: linear-gradient(45deg, #4a235a, #8e44ad);">
-          <i class="fas fa-feather-alt" style="font-size: 3rem; margin-bottom: 1rem;"></i>
-          <span style="font-weight: 600; font-size: 1.2rem;">Close Reading • Clear Writing</span>
-          <p style="margin-top: 1rem; padding: 0 1rem; text-align: center;">Sample passages & prompt preview</p>
+          <iframe class="pdf-viewer" src="https://drive.google.com/file/d/1kpVDMLfs4E7qkcTUH4StfJCXR-V8dDSU/preview" type="application/pdf" style="width:100%; height:100%;">
+            <p>Your browser does not support PDFs. <a href="https://drive.google.com/file/d/1kpVDMLfs4E7qkcTUH4StfJCXR-V8dDSU/view" target="_blank">Download the PDF</a> instead.</p>
+          </iframe>
+          <a href="https://drive.google.com/file/d/1kpVDMLfs4E7qkcTUH4StfJCXR-V8dDSU/view" target="_blank" class="download-link">Download PDF</a>
         </div>
       </div>
     </section>
@@ -808,7 +826,6 @@
     hamburger.addEventListener('click', toggleMobileNav);
     closeNav.addEventListener('click', closeMobileNav);
 
-    // Smooth scrolling for all nav links (desktop & mobile)
     document.querySelectorAll('nav a, .mobile-nav a').forEach(anchor => {
       anchor.addEventListener('click', function(e) {
         const href = this.getAttribute('href');
@@ -826,7 +843,6 @@
       });
     });
 
-    // Intersection Observer for subtle animations
     const observerOptions = {
       root: null,
       rootMargin: '0px',
